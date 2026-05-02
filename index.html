@@ -76,6 +76,8 @@
   .item-link.photo { color: #C45A3F; border-color: #F4DDD5; background: #FCF6F3; }
   .item-link.wiki { color: var(--ink-soft); }
   .item-link.phone { color: var(--accent); background: var(--gold-soft); border-color: var(--gold); }
+  .item-link.info { color: var(--accent); background: #E8F1F0; border-color: #B5D4D0; cursor: pointer; }
+  button.item-link { font-family: inherit; }
   
   .sub-list { margin-top: 6px; padding: 8px 12px; background: var(--bg); border-left: 2px solid var(--gold); border-radius: 2px; font-size: 12px; color: var(--ink-soft); }
   .sub-list .step { padding: 3px 0; display: flex; gap: 8px; }
@@ -320,6 +322,7 @@ const days = [
         ]},
       { time: '19:00', title: '🍽 軽めディナー', detail: 'ICONSIAM or ホテル館内',
         links: [
+          {info:'iconsiam', text:'🕐 営業時間', cls:''},
           {url:'https://www.iconsiam.com/', text:'🛍 ICONSIAM', cls:''},
           {url: gMap('ICONSIAM Bangkok'), text:'🗺 地図', cls:'map'},
         ]},
@@ -333,6 +336,7 @@ const days = [
       { time: '12:00', title: 'ホテル発', detail: 'ICONSIAM船着場へ' },
       { time: '12:30', title: '🛥 ボート出発', detail: 'チャオプラヤ・ツーリストボート 単発30B',
         links: [
+          {info:'tourist-boat-north', text:'🕐 時刻表', cls:''},
           {url:'https://chaophrayatouristboat.com/', text:'🛥 公式', cls:''},
           {url: gMap('ICONSIAM Pier Bangkok'), text:'🗺 ICONSIAM船着場', cls:'map'},
         ]},
@@ -347,6 +351,7 @@ const days = [
           { n: '⑤', t: 'チャクリー宮殿 (外観)' },
         ],
         links: [
+          {info:'grand-palace', text:'🕐 開館・料金', cls:''},
           {url: gMap('Grand Palace Bangkok'), text:'🗺 地図', cls:'map'},
           {url: gImg('Wat Phra Kaew Grand Palace Bangkok'), text:'📸 写真', cls:'photo'},
           {url: gWiki('ja','王宮 (バンコク)'), text:'📖 詳細', cls:'wiki'},
@@ -359,6 +364,7 @@ const days = [
           { n: '③', t: '4基の仏塔 (プラ・マハー・チェディ)' },
         ],
         links: [
+          {info:'wat-pho', text:'🕐 開館・料金', cls:''},
           {url: gMap('Wat Pho Bangkok'), text:'🗺 地図', cls:'map'},
           {url: gImg('Wat Pho Reclining Buddha Bangkok'), text:'📸 写真', cls:'photo'},
           {url: gWiki('ja','ワット・ポー'), text:'📖 詳細', cls:'wiki'},
@@ -367,7 +373,10 @@ const days = [
       { time: '15:35', title: '☕ カフェ休憩 (60分)', detail: 'The Sixth Floor Cafe',
         links: [{url: gMap('The Sixth Floor Cafe Bangkok Tha Tien'), text:'🗺 地図', cls:'map'}] },
       { time: '16:35', title: 'ターティアン → 渡し舟', detail: '4バーツ',
-        links: [{url: gMap('Tha Tien Pier Bangkok'), text:'🗺 ターティアン船着場', cls:'map'}] },
+        links: [
+          {info:'cross-river-ferry', text:'🕐 渡し舟情報', cls:''},
+          {url: gMap('Tha Tien Pier Bangkok'), text:'🗺 ターティアン船着場', cls:'map'},
+        ]},
       { time: '16:45', title: '🌅 ワット・アルン IN', detail: '暁の寺・陶器装飾の美', major: true,
         sub: [
           { n: '①', t: 'ヤック像 (白サハサデーチャ・緑トッサカン)' },
@@ -375,6 +384,7 @@ const days = [
           { n: '③', t: '中央仏塔登塔 (最後・体力残す)' },
         ],
         links: [
+          {info:'wat-arun', text:'🕐 開館・料金', cls:''},
           {url: gMap('Wat Arun Bangkok'), text:'🗺 地図', cls:'map'},
           {url: gImg('Wat Arun Temple of Dawn Bangkok'), text:'📸 写真', cls:'photo'},
           {url: gWiki('ja','ワット・アルンラーチャワラーラーム'), text:'📖 詳細', cls:'wiki'},
@@ -383,6 +393,7 @@ const days = [
       { time: '17:30', title: '対岸でサンセット撮影', detail: 'ゴールデンアワー' },
       { time: '18:30', title: '🍽 The Deck', detail: 'ワット・アルン夜景・要予約', major: true,
         links: [
+          {info:'the-deck', text:'🕐 営業情報', cls:''},
           {url:'https://www.arunresidence.com/the-deck/', text:'🍽 公式', cls:''},
           {url:'tel:+6622219158', text:'📞 +66 2 221 9158', cls:'phone'},
           {url: gMap('The Deck Arun Residence Bangkok'), text:'🗺 地図', cls:'map'},
@@ -433,6 +444,7 @@ const days = [
       { time: '17:00', title: '🛥 シャトルボート', detail: 'ホテル → ICONSIAM (無料)' },
       { time: '17:30', title: '🛍 ICONSIAM散策', detail: 'SOOKSIAM・夕景',
         links: [
+          {info:'iconsiam', text:'🕐 営業時間', cls:''},
           {url:'https://www.iconsiam.com/', text:'🛍 公式', cls:''},
           {url: gMap('ICONSIAM Bangkok'), text:'🗺 地図', cls:'map'},
           {url: gImg('SOOKSIAM ICONSIAM'), text:'📸 写真', cls:'photo'},
@@ -448,6 +460,7 @@ const days = [
       { time: '12:00', title: 'H → アユタヤ → 空港', detail: 'ホテルピックアップ', major: true },
       { time: '14:30〜18:30', title: '🏛 アユタヤ遺跡', detail: '貸切チャーター',
         links: [
+          {info:'ayutthaya', text:'🕐 開園時間', cls:''},
           {url: gMap('Ayutthaya Historical Park'), text:'🗺 地図', cls:'map'},
           {url: gImg('Ayutthaya Historical Park'), text:'📸 写真', cls:'photo'},
           {url: gWiki('ja','アユタヤ歴史公園'), text:'📖 詳細', cls:'wiki'},
@@ -455,6 +468,7 @@ const days = [
       { time: '18:30', title: 'BKKへ移動', detail: '' },
       { time: '20:00', title: '✈ スワンナプーム空港', detail: 'Royal Orchid Prestige Lounge へ', major: true,
         links: [
+          {info:'lounge', text:'🕐 ラウンジ情報', cls:''},
           {url:'https://www.thaiairways.com/en_TH/fly_thai/inflight_services/royal_orchid_lounge_bangkok.page', text:'ラウンジ詳細', cls:''},
           {url: gMap('Suvarnabhumi Airport Concourse D'), text:'🗺 地図', cls:'map'},
         ]},
@@ -602,7 +616,12 @@ days.forEach((d) => {
     let linksHtml = '';
     if (it.links) {
       linksHtml = '<div class="item-links">' +
-        it.links.map(l => `<a href="${l.url}" class="item-link ${l.cls||''}" target="_blank">${l.text}</a>`).join('') +
+        it.links.map(l => {
+          if (l.info) {
+            return `<button onclick="showInfo('${l.info}')" class="item-link info">${l.text}</button>`;
+          }
+          return `<a href="${l.url}" class="item-link ${l.cls||''}" target="_blank">${l.text}</a>`;
+        }).join('') +
         '</div>';
     }
     html += `
@@ -678,172 +697,352 @@ function openSheet(panel) {
 function closeSheet() { sheet.classList.remove('open'); }
 
 function renderBoats() {
-  return `
-    <div class="boat-tip">
-      💡 <strong>あなたの予定との対応</strong><br>
-      ・5/6 19:00 ICONSIAMディナー → <strong>19:00便</strong>（ICONSIAM 19:10着）<br>
-      ・5/7 12:00 ICONSIAM船着場 → <strong>12:00便</strong>（ICONSIAM 12:10着）<br>
-      ・5/9 17:00 ICONSIAM散策 → <strong>17:00便</strong>（ICONSIAM 17:10着）
-    </div>
+  const trips1 = [
+    [1,'07:00','07:05','—','07:10'],
+    [2,'07:30','07:35','—','07:40'],
+    [3,'08:00','08:05','—','08:10'],
+    [4,'08:30','08:35','—','08:40'],
+    [5,'09:00','09:05','—','09:10'],
+    [6,'09:30','09:35','—','09:40'],
+    [7,'10:00','10:05','10:10','10:20'],
+    [8,'10:30','10:35','—','10:40'],
+    [9,'11:00','11:05','11:10','11:20'],
+    [10,'11:30','11:35','—','11:40'],
+    [11,'12:00','12:05','12:10','12:20'],
+    [12,'12:30','12:35','—','12:40'],
+    [13,'13:00','13:05','13:10','13:20'],
+    [14,'13:30','13:35','—','13:40']
+  ];
+  const trips2 = [
+    [15,'15:00','15:05','15:10','15:20'],
+    [16,'15:30','15:35','—','15:40'],
+    [17,'16:00','16:05','16:10','16:20'],
+    [18,'16:30','16:35','—','16:40'],
+    [19,'17:00','17:05','17:10','17:20'],
+    [20,'17:30','17:35','—','17:40'],
+    [21,'18:00','18:05','18:10','18:20'],
+    [22,'18:30','18:35','—','18:40'],
+    [23,'19:00','19:05','19:10','19:20'],
+    [24,'19:30','19:35','—','19:40'],
+    [25,'20:00','20:05','20:10','20:20'],
+    [26,'20:30','20:35','—','20:40'],
+    [27,'21:00','21:05','21:10','21:20'],
+    [28,'21:30','21:35','—','21:40'],
+    [29,'22:00','22:05','22:10','22:20']
+  ];
+  
+  function buildRow(arr) {
+    var n = arr[0], a = arr[1], b = arr[2], c = arr[3], d = arr[4];
+    var hasIcon = c !== '—';
+    var bg = hasIcon ? 'background:var(--gold-soft);' : '';
+    var iconCol = hasIcon ? 'color:var(--gold); font-weight:700;' : 'color:var(--ink-faint);';
+    return '<tr style="border-top:1px solid var(--line); ' + bg + '">' +
+      '<td style="padding:7px 4px; text-align:center; color:var(--ink-faint);">' + n + '</td>' +
+      '<td style="padding:7px 4px; text-align:center; font-family:\'Shippori Mincho\',serif; font-weight:500;">' + a + '</td>' +
+      '<td style="padding:7px 4px; text-align:center; color:var(--ink-soft);">' + b + '</td>' +
+      '<td style="padding:7px 4px; text-align:center; ' + iconCol + '">' + c + '</td>' +
+      '<td style="padding:7px 4px; text-align:center; color:var(--ink-soft);">' + d + '</td>' +
+      '</tr>';
+  }
+  
+  var rows1 = trips1.map(buildRow).join('');
+  var rows2 = trips2.map(buildRow).join('');
+  
+  return '<div class="boat-tip">' +
+    '💡 <strong>あなたの予定との対応</strong><br>' +
+    '・5/6 19:00 ICONSIAMディナー → <strong>19:00便</strong>（ICONSIAM 19:10着）<br>' +
+    '・5/7 12:00 ICONSIAM船着場 → <strong>12:00便</strong>（ICONSIAM 12:10着）<br>' +
+    '・5/9 17:00 ICONSIAM散策 → <strong>17:00便</strong>（ICONSIAM 17:10着）' +
+    '</div>' +
     
-    <div class="sheet-section">
-      <h4>🏨 ホテルシャトルボート（公式時刻表）</h4>
-      <div class="boat-card featured">
-        <div class="boat-header">
-          <div class="boat-flag gold">🏨</div>
-          <div>
-            <div class="boat-name">CHAO PHRAYA ESTATE シャトル</div>
-            <div class="boat-fare">無料 / 宿泊者専用 / 定員40名</div>
-          </div>
-        </div>
-        <div class="boat-row"><span class="label">運航時間</span><span class="value">7:00 — 22:00 出発</span></div>
-        <div class="boat-row"><span class="label">基本ルート</span><span class="value">ホテル → サートーン → ホテル</span></div>
-        <div class="boat-row"><span class="label">ICONSIAM経由</span><span class="value">10:00以降の毎時00分便</span></div>
-        <div class="boat-row"><span class="label">休憩</span><span class="value">14:00 — 15:00</span></div>
-      </div>
+    '<div class="sheet-section">' +
+      '<h4>🏨 ホテルシャトルボート（公式時刻表）</h4>' +
+      '<div class="boat-card featured">' +
+        '<div class="boat-header">' +
+          '<div class="boat-flag gold">🏨</div>' +
+          '<div>' +
+            '<div class="boat-name">CHAO PHRAYA ESTATE シャトル</div>' +
+            '<div class="boat-fare">無料 / 宿泊者専用 / 定員40名</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="boat-row"><span class="label">運航時間</span><span class="value">7:00 — 22:00 出発</span></div>' +
+        '<div class="boat-row"><span class="label">基本ルート</span><span class="value">ホテル → サートーン → ホテル</span></div>' +
+        '<div class="boat-row"><span class="label">ICONSIAM経由</span><span class="value">10:00以降の毎時00分便</span></div>' +
+        '<div class="boat-row"><span class="label">休憩</span><span class="value">14:00 — 15:00</span></div>' +
+      '</div>' +
       
-      <div style="margin-top:14px; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden;">
-        <div style="background:var(--ink); color:white; padding:10px 12px; font-size:11px; font-weight:700; letter-spacing:0.05em;">
-          完全時刻表 / FULL TIMETABLE
-        </div>
-        <div style="overflow-x:auto;">
-          <table style="width:100%; border-collapse:collapse; font-size:11px; min-width:340px;">
-            <thead>
-              <tr style="background:var(--bg); color:var(--ink-soft);">
-                <th style="padding:6px 4px; text-align:center; font-weight:500; width:28px;">便</th>
-                <th style="padding:6px 4px; text-align:center; font-weight:500;">ホテル発</th>
-                <th style="padding:6px 4px; text-align:center; font-weight:500;">サートーン着</th>
-                <th style="padding:6px 4px; text-align:center; font-weight:500;">ICONSIAM発</th>
-                <th style="padding:6px 4px; text-align:center; font-weight:500;">ホテル着</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${[
-                [1,'07:00','07:05','—','07:10'],
-                [2,'07:30','07:35','—','07:40'],
-                [3,'08:00','08:05','—','08:10'],
-                [4,'08:30','08:35','—','08:40'],
-                [5,'09:00','09:05','—','09:10'],
-                [6,'09:30','09:35','—','09:40'],
-                [7,'10:00','10:05','10:10','10:20'],
-                [8,'10:30','10:35','—','10:40'],
-                [9,'11:00','11:05','11:10','11:20'],
-                [10,'11:30','11:35','—','11:40'],
-                [11,'12:00','12:05','12:10','12:20'],
-                [12,'12:30','12:35','—','12:40'],
-                [13,'13:00','13:05','13:10','13:20'],
-                [14,'13:30','13:35','—','13:40'],
-              ].map(([n,a,b,c,d]) => {
-                const hasIcon = c !== '—';
-                return `<tr style="border-top:1px solid var(--line); ${hasIcon?'background:var(--gold-soft);':''}">
-                  <td style="padding:7px 4px; text-align:center; color:var(--ink-faint);">${n}</td>
-                  <td style="padding:7px 4px; text-align:center; font-family:'Shippori Mincho',serif; font-weight:500;">${a}</td>
-                  <td style="padding:7px 4px; text-align:center; color:var(--ink-soft);">${b}</td>
-                  <td style="padding:7px 4px; text-align:center; ${hasIcon?'color:var(--gold); font-weight:700;':'color:var(--ink-faint);'}">${c}</td>
-                  <td style="padding:7px 4px; text-align:center; color:var(--ink-soft);">${d}</td>
-                </tr>`;
-              }).join('')}
-              <tr style="background:#3d3835; color:#bbb;">
-                <td colspan="5" style="padding:8px; text-align:center; font-size:10px; letter-spacing:0.15em;">— 14:00〜15:00 BREAK / 休憩・給油 —</td>
-              </tr>
-              ${[
-                [15,'15:00','15:05','15:10','15:20'],
-                [16,'15:30','15:35','—','15:40'],
-                [17,'16:00','16:05','16:10','16:20'],
-                [18,'16:30','16:35','—','16:40'],
-                [19,'17:00','17:05','17:10','17:20'],
-                [20,'17:30','17:35','—','17:40'],
-                [21,'18:00','18:05','18:10','18:20'],
-                [22,'18:30','18:35','—','18:40'],
-                [23,'19:00','19:05','19:10','19:20'],
-                [24,'19:30','19:35','—','19:40'],
-                [25,'20:00','20:05','20:10','20:20'],
-                [26,'20:30','20:35','—','20:40'],
-                [27,'21:00','21:05','21:10','21:20'],
-                [28,'21:30','21:35','—','21:40'],
-                [29,'22:00','22:05','22:10','22:20'],
-              ].map(([n,a,b,c,d]) => {
-                const hasIcon = c !== '—';
-                return `<tr style="border-top:1px solid var(--line); ${hasIcon?'background:var(--gold-soft);':''}">
-                  <td style="padding:7px 4px; text-align:center; color:var(--ink-faint);">${n}</td>
-                  <td style="padding:7px 4px; text-align:center; font-family:'Shippori Mincho',serif; font-weight:500;">${a}</td>
-                  <td style="padding:7px 4px; text-align:center; color:var(--ink-soft);">${b}</td>
-                  <td style="padding:7px 4px; text-align:center; ${hasIcon?'color:var(--gold); font-weight:700;':'color:var(--ink-faint);'}">${c}</td>
-                  <td style="padding:7px 4px; text-align:center; color:var(--ink-soft);">${d}</td>
-                </tr>`;
-              }).join('')}
-            </tbody>
-          </table>
-        </div>
-        <div style="padding:10px 12px; background:var(--bg); font-size:10px; color:var(--ink-soft); line-height:1.5;">
-          <strong style="color:var(--gold);">■</strong> 金色の行 = ICONSIAM経由便
-        </div>
-      </div>
+      '<div style="margin-top:14px; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden;">' +
+        '<div style="background:var(--ink); color:white; padding:10px 12px; font-size:11px; font-weight:700; letter-spacing:0.05em;">' +
+          '完全時刻表 / FULL TIMETABLE' +
+        '</div>' +
+        '<div style="overflow-x:auto;">' +
+          '<table style="width:100%; border-collapse:collapse; font-size:11px; min-width:340px;">' +
+            '<thead>' +
+              '<tr style="background:var(--bg); color:var(--ink-soft);">' +
+                '<th style="padding:6px 4px; text-align:center; font-weight:500; width:28px;">便</th>' +
+                '<th style="padding:6px 4px; text-align:center; font-weight:500;">ホテル発</th>' +
+                '<th style="padding:6px 4px; text-align:center; font-weight:500;">サートーン着</th>' +
+                '<th style="padding:6px 4px; text-align:center; font-weight:500;">ICONSIAM発</th>' +
+                '<th style="padding:6px 4px; text-align:center; font-weight:500;">ホテル着</th>' +
+              '</tr>' +
+            '</thead>' +
+            '<tbody>' +
+              rows1 +
+              '<tr style="background:#3d3835; color:#bbb;">' +
+                '<td colspan="5" style="padding:8px; text-align:center; font-size:10px; letter-spacing:0.15em;">— 14:00〜15:00 BREAK / 休憩・給油 —</td>' +
+              '</tr>' +
+              rows2 +
+            '</tbody>' +
+          '</table>' +
+        '</div>' +
+        '<div style="padding:10px 12px; background:var(--bg); font-size:10px; color:var(--ink-soft); line-height:1.5;">' +
+          '<strong style="color:var(--gold);">■</strong> 金色の行 = ICONSIAM経由便' +
+        '</div>' +
+      '</div>' +
       
-      <div class="boat-note" style="margin-top:14px;">
-        <strong>ご利用条件</strong><br>
-        ・要事前予約：サートーン → ホテル便のうち 10:00以前は予約必須<br>
-        ・乗船時にホテルキー or ボートパス提示<br>
-        ・宿泊者以外は1,000B罰金<br>
-        ・先着順・定員40名<br>
-        ・悪天候時は予告なく変更・運休あり
-      </div>
+      '<div class="boat-note" style="margin-top:14px;">' +
+        '<strong>ご利用条件</strong><br>' +
+        '・要事前予約：サートーン → ホテル便のうち 10:00以前は予約必須<br>' +
+        '・乗船時にホテルキー or ボートパス提示<br>' +
+        '・宿泊者以外は1,000B罰金<br>' +
+        '・先着順・定員40名<br>' +
+        '・悪天候時は予告なく変更・運休あり' +
+      '</div>' +
       
-      <div class="boat-note">
-        <strong>📞 問い合わせ</strong><br>
-        Four Seasons Hotel & Residences: +66 2 032 0888<br>
-        Capella Bangkok: +66 2 098 3888
-      </div>
-    </div>
+      '<div class="boat-note">' +
+        '<strong>📞 問い合わせ</strong><br>' +
+        'Four Seasons Hotel & Residences: +66 2 032 0888<br>' +
+        'Capella Bangkok: +66 2 098 3888' +
+      '</div>' +
+    '</div>' +
     
-    <div class="sheet-section">
-      <h4>🌊 観光用ボート（5/7使用）</h4>
+    '<div class="boat-tip" style="background:var(--bg); border-left-color:var(--accent);">' +
+      'ℹ️ <strong>その他の時刻表は各旅程アイテムから</strong><br>' +
+      '5/7のツーリストボート、渡し舟、寺院の開館時間などは、各日のスケジュール画面で対応するアイテムの 🕐 ボタンから確認できます。' +
+    '</div>';
+}
+
+// ============= INFO PANELS =============
+const infoPanels = {
+  'tourist-boat-north': {
+    title: '🛥 ツーリストボート（北行）',
+    html: `
       <div class="boat-card">
         <div class="boat-header">
           <div class="boat-flag blue">青</div>
           <div>
-            <div class="boat-name">チャオプラヤ・ツーリストボート（青旗）</div>
+            <div class="boat-name">チャオプラヤ・ツーリストボート</div>
             <div class="boat-fare">1日券 150B / 単発 40B</div>
           </div>
         </div>
-        <div class="boat-row"><span class="label">運航時間</span><span class="value">8:30 — 19:15</span></div>
-        <div class="boat-row"><span class="label">間隔</span><span class="value">約30分ごと</span></div>
-        <div class="boat-row"><span class="label">ICONSIAM発</span><span class="value">三大寺院方面</span></div>
-        <div class="boat-note">
-          <strong>5/7の三大寺院巡りで使う</strong>。屋根付き観光船で英語アナウンス付き。ICONSIAM Pier 1のチケット窓口で購入。
+        <div class="boat-row"><span class="label">運航時間</span><span class="value">9:04 — 19:49</span></div>
+        <div class="boat-row"><span class="label">間隔</span><span class="value">午前30分・午後変則</span></div>
+        <div class="boat-row"><span class="label">所要</span><span class="value">ICONSIAM→ターチャン約20分</span></div>
+      </div>
+      
+      <div style="margin-top:12px; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden;">
+        <div style="background:var(--accent); color:white; padding:10px 12px; font-size:11px; font-weight:700;">
+          ICONSIAM発・北行 完全時刻表
+        </div>
+        <div style="padding:12px; font-size:12px; line-height:1.8;">
+          <strong style="color:var(--accent);">午前（30分間隔）</strong><br>
+          <span style="color:var(--ink-soft);">9:04 / 9:34 / 10:04 / 10:34 / 11:04 / 11:34</span><br><br>
+          <strong style="color:var(--warning);">午後（2025年12月改正で15分ズレ）</strong><br>
+          <span style="color:var(--ink-soft);"><strong style="color:var(--gold);">12:19 / 12:49</strong> / 13:19 / 13:49 / 14:19 / 14:49 / 15:19 / 15:49 / 16:19 / 16:49 / <strong>17:09</strong> / 17:49 / 18:19 / 18:49 / 19:19 / 19:49</span><br><br>
+          <strong>停船順</strong><br>
+          <span style="color:var(--ink-soft); font-size:11px;">ICONSIAM → ラチャウォン → ラチニー → ワット・アルン → <strong>N8 ターティアン</strong> → <strong>N9 ターチャン</strong> → タマハーラート → プラアーティット</span>
+        </div>
+        <div style="padding:10px 12px; background:var(--gold-soft); font-size:12px; border-top:1px solid var(--line); line-height:1.6;">
+          💡 <strong>5/7の現実</strong>：ホテル便で<strong>12:10にICONSIAM着</strong> → Pier 1まで徒歩約5分<br>
+          ・<strong>12:19便</strong>：ダッシュすればギリギリ<br>
+          ・<strong>12:49便</strong>：安全策（19分待ち）
         </div>
       </div>
-    </div>
-    
-    <div class="sheet-section">
-      <h4>🚤 公共シャトル（バックアップ用）</h4>
+      
+      <div class="boat-note" style="margin-top:12px;">
+        ソース：thailandboat.com（2026年4月更新版）。2025年12月のダイヤ改正後の最新ダイヤ。Pier 1の窓口にも同じ時刻表が掲示されているはずです。
+      </div>
+    `
+  },
+  'tourist-boat-south': {
+    title: '🛥 ツーリストボート（南行）',
+    html: `
       <div class="boat-card">
         <div class="boat-header">
-          <div class="boat-flag green">S</div>
+          <div class="boat-flag blue">青</div>
           <div>
-            <div class="boat-name">Supatra Boat</div>
-            <div class="boat-fare">片道 8B / 9:00 — 23:00 / 15〜20分間隔</div>
+            <div class="boat-name">ICONSIAM発 → サートーン方面</div>
+            <div class="boat-fare">1日券 150B / 単発 40B</div>
           </div>
         </div>
-        <div class="boat-note">
-          ホテル便が運休・満員の時のバックアップ。ICONSIAM ↔ サートーン間。チケットは ICONSIAM Pier 1 窓口。<br>
-          特にホテル便休憩中（14:00〜15:00）に使うと便利。
+        <div class="boat-row"><span class="label">運航時間</span><span class="value">8:56 — 19:26</span></div>
+        <div class="boat-row"><span class="label">間隔</span><span class="value">約30分</span></div>
+      </div>
+      
+      <div style="margin-top:12px; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden;">
+        <div style="background:var(--accent); color:white; padding:10px 12px; font-size:11px; font-weight:700;">
+          ICONSIAM発・南行 時刻表
+        </div>
+        <div style="padding:12px; font-size:12px; line-height:1.8;">
+          <span style="color:var(--ink-soft);">8:56 / 9:26 / 9:56 / 10:26 / 10:56 / 11:26 / 11:56 / 12:26 / 12:56 / 13:26 / 13:56 / 14:26 / 14:56 / 15:26 / 15:56 / 16:26 / 16:46 / 17:26 / 17:56 / 18:26 / 18:56 / 19:26</span><br><br>
+          <strong>アジアティーク延伸便</strong>：午後便（11:56〜18:56）はアジアティーク（夜のリバーサイドマーケット）まで運航。
         </div>
       </div>
-    </div>
-    
-    <div class="sheet-section">
-      <h4>📍 主要桟橋一覧</h4>
-      <div class="boat-card">
-        <div class="boat-row"><span class="label">N9 ターチャン</span><span class="value">王宮</span></div>
-        <div class="boat-row"><span class="label">N8 ターティアン</span><span class="value">ワット・ポー / アルン渡し</span></div>
-        <div class="boat-row"><span class="label">N3 ICONSIAM</span><span class="value">ホテル隣接モール</span></div>
-        <div class="boat-row"><span class="label">サートーン</span><span class="value">BTSサパーンタクシン</span></div>
-        <div class="boat-row"><span class="label">アジアティーク</span><span class="value">夜のリバーサイドマーケット</span></div>
+      
+      <div class="boat-note" style="margin-top:12px;">
+        ソース：thailandboat.com（2026年4月更新版）。サートーン桟橋（BTSサパーンタクシン）方面行き。
       </div>
-    </div>
-  `;
+    `
+  },
+  'cross-river-ferry': {
+    title: '🚢 ターティアン⇔ワット・アルン渡し舟',
+    html: `
+      <div class="boat-card">
+        <div class="boat-header">
+          <div class="boat-flag" style="background:#7B5CA1;">渡</div>
+          <div>
+            <div class="boat-name">クロスリバーフェリー</div>
+            <div class="boat-fare">片道 5B（情報源により4〜8B）</div>
+          </div>
+        </div>
+        <div class="boat-row"><span class="label">運航時間</span><span class="value">5:00頃 — 19:00頃</span></div>
+        <div class="boat-row"><span class="label">間隔</span><span class="value">5〜10分ごと</span></div>
+        <div class="boat-row"><span class="label">所要時間</span><span class="value">約3分</span></div>
+        <div class="boat-row"><span class="label">支払い</span><span class="value">現金のみ</span></div>
+        <div class="boat-note">
+          <strong>5/7 16:35頃の利用は問題なし</strong>。営業時間は情報源により異なり、5:00〜19:00という公式に近い情報と、5:00〜22:00という観光サイト情報が混在。19:00以降は要注意。<br>
+          ターティアン船着場でチケット購入後すぐ乗船、ほぼ待ち時間なし。
+        </div>
+      </div>
+    `
+  },
+  'grand-palace': {
+    title: '🏛 王宮（Grand Palace）',
+    html: `
+      <div class="boat-card">
+        <div class="boat-row"><span class="label">入場料</span><span class="value">500B</span></div>
+        <div class="boat-row"><span class="label">開館</span><span class="value">8:30 — 16:30</span></div>
+        <div class="boat-row"><span class="label">最終入場</span><span class="value">15:30</span></div>
+        <div class="boat-row"><span class="label">チケット販売</span><span class="value">8:30 — 15:30</span></div>
+        <div class="boat-note">
+          王室行事で予告なく閉館することあり。当日の状況はホテルコンシェルジュで確認可。
+        </div>
+      </div>
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">⚠️ ドレスコード（厳格）</div>
+        <div class="boat-note" style="margin-top:0;">
+          ・肩・膝を必ず隠す<br>
+          ・タンクトップ・短パン・ミニスカート不可<br>
+          ・露出時は入口で200Bでレンタル可<br>
+          ・サンダルOKだがスニーカー推奨
+        </div>
+      </div>
+    `
+  },
+  'wat-pho': {
+    title: '🛌 ワット・ポー（涅槃仏寺）',
+    html: `
+      <div class="boat-card">
+        <div class="boat-row"><span class="label">入場料</span><span class="value">100B</span></div>
+        <div class="boat-row"><span class="label">開館</span><span class="value">8:30 — 18:30</span></div>
+        <div class="boat-note">
+          王宮から徒歩5分。涅槃仏堂は靴を脱いで入場。<br>
+          108の鉢にコイン投入（20B/袋）は希望者のみ。
+        </div>
+      </div>
+    `
+  },
+  'wat-arun': {
+    title: '🌅 ワット・アルン（暁の寺）',
+    html: `
+      <div class="boat-card">
+        <div class="boat-row"><span class="label">入場料</span><span class="value">100B</span></div>
+        <div class="boat-row"><span class="label">開館</span><span class="value">8:00 — 18:00</span></div>
+        <div class="boat-note">
+          <strong>5/7 16:45入場予定</strong>。閉館75分前なので、登塔は早めに。<br>
+          ※18:00以降は内部入場不可。対岸からのライトアップ鑑賞は終夜可能（ディナー時に楽しめる）。
+        </div>
+      </div>
+    `
+  },
+  'ayutthaya': {
+    title: '🏛 アユタヤ歴史公園',
+    html: `
+      <div class="boat-card">
+        <div class="boat-row"><span class="label">主要寺院</span><span class="value">各50B</span></div>
+        <div class="boat-row"><span class="label">開館</span><span class="value">8:00 — 18:00</span></div>
+        <div class="boat-note">
+          5/10 14:30〜18:30の見学は閉館時間ギリギリ。ツアーガイドが順番を最適化してくれる。
+        </div>
+      </div>
+    `
+  },
+  'iconsiam': {
+    title: '🛍 ICONSIAM',
+    html: `
+      <div class="boat-card">
+        <div class="boat-row"><span class="label">営業時間</span><span class="value">10:00 — 22:00</span></div>
+        <div class="boat-row"><span class="label">SOOKSIAM</span><span class="value">10:00 — 22:00</span></div>
+        <div class="boat-row"><span class="label">レストラン</span><span class="value">店舗により〜23:00</span></div>
+        <div class="boat-note">
+          ホテル無料シャトルでアクセス。地下のSOOKSIAMはタイ料理屋台フードコートで観光客に人気。
+        </div>
+      </div>
+    `
+  },
+  'lounge': {
+    title: '✈ Royal Orchid Prestige Lounge',
+    html: `
+      <div class="boat-card">
+        <div class="boat-row"><span class="label">場所</span><span class="value">D Concourse East</span></div>
+        <div class="boat-row"><span class="label">営業時間</span><span class="value">5:00 — 翌2:00</span></div>
+        <div class="boat-row"><span class="label">入室条件</span><span class="value">ビジネスクラス搭乗券</span></div>
+        <div class="boat-note">
+          深夜便TG0648（0:40発）は最終便のため、最終入店は0:00目処。<br>
+          シャワーは受付で順番待ち登録。混雑時は20〜30分待ちあり。
+        </div>
+      </div>
+    `
+  },
+  'the-deck': {
+    title: '🍽 The Deck by Arun Residence',
+    html: `
+      <div class="boat-card">
+        <div class="boat-row"><span class="label">営業時間</span><span class="value">11:00 — 23:00</span></div>
+        <div class="boat-row"><span class="label">電話</span><span class="value">+66 2 221 9158</span></div>
+        <div class="boat-row"><span class="label">予約</span><span class="value">5/7 18:30</span></div>
+        <div class="boat-note">
+          ワット・アルン正面のリバービュー店。<strong>川向きテラス席を要指定</strong>。<br>
+          ライトアップは18:30頃から。サンセットを見ながらのディナーが最高。
+        </div>
+      </div>
+    `
+  },
+  'supatra-boat': {
+    title: '🚤 Supatra Boat（公共シャトル）',
+    html: `
+      <div class="boat-card">
+        <div class="boat-row"><span class="label">片道</span><span class="value">8B</span></div>
+        <div class="boat-row"><span class="label">運航時間</span><span class="value">9:00 — 22:50</span></div>
+        <div class="boat-row"><span class="label">間隔</span><span class="value">15〜20分ごと</span></div>
+        <div class="boat-row"><span class="label">区間</span><span class="value">ICONSIAM ↔ サートーン</span></div>
+        <div class="boat-note">
+          ホテル便が運休・満員の時のバックアップ。特にホテル便休憩中（14:00〜15:00）に便利。<br>
+          チケットは ICONSIAM Pier 1 窓口。
+        </div>
+      </div>
+    `
+  }
+};
+
+function showInfo(key) {
+  const panel = infoPanels[key];
+  if (!panel) return;
+  sheet.classList.add('open');
+  sheetTitle.textContent = panel.title;
+  sheetBody.innerHTML = '<div class="sheet-section">' + panel.html + '</div>';
 }
+
 
 
 function renderBookings() {
