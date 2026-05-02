@@ -182,6 +182,82 @@
   .global-memo textarea { width: 100%; border: none; background: transparent; font-family: inherit; font-size: 13px; line-height: 1.7; color: var(--ink); resize: vertical; min-height: 200px; outline: none; }
   
   .reset-btn { margin-top: 16px; padding: 8px 12px; background: transparent; border: 1px solid var(--line); border-radius: 6px; font-size: 11px; color: var(--ink-faint); cursor: pointer; font-family: inherit; }
+  
+  /* Boat schedule */
+  .boat-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .boat-card.featured {
+    border-color: var(--gold);
+    background: linear-gradient(180deg, var(--gold-soft) 0%, var(--card) 60%);
+  }
+  .boat-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .boat-flag {
+    flex-shrink: 0;
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+  .boat-flag.blue { background: #1A73E8; }
+  .boat-flag.green { background: #2C5F5D; }
+  .boat-flag.gold { background: var(--gold); }
+  .boat-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .boat-fare {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+  .boat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+  }
+  .boat-row:first-of-type { border-top: none; padding-top: 0; }
+  .boat-row .label { color: var(--ink-soft); }
+  .boat-row .value { color: var(--ink); font-weight: 500; text-align: right; }
+  .boat-note {
+    margin-top: 10px;
+    padding: 8px 10px;
+    background: var(--bg);
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .boat-note strong { color: var(--ink); }
+  
+  .boat-tip {
+    background: var(--gold-soft);
+    border-left: 3px solid var(--gold);
+    padding: 12px 14px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--ink);
+    line-height: 1.6;
+  }
 </style>
 </head>
 <body>
@@ -200,6 +276,7 @@
 
 <div class="action-bar">
   <div class="action-inner">
+    <button class="action-btn" onclick="openSheet('boats')"><span class="icon">🛥</span><span>ボート</span></button>
     <button class="action-btn" onclick="openSheet('bookings')"><span class="icon">✈</span><span>予約</span></button>
     <button class="action-btn" onclick="openSheet('checklist')"><span class="icon">☑</span><span>持ち物</span></button>
     <button class="action-btn" onclick="openSheet('memo')"><span class="icon">📝</span><span>メモ</span></button>
@@ -591,13 +668,183 @@ const sheetTitle = document.getElementById('sheet-title');
 
 function openSheet(panel) {
   sheet.classList.add('open');
-  if (panel === 'bookings') { sheetTitle.textContent = '予約情報'; sheetBody.innerHTML = renderBookings(); }
+  if (panel === 'boats') { sheetTitle.textContent = '🛥 ボート時刻表'; sheetBody.innerHTML = renderBoats(); }
+  else if (panel === 'bookings') { sheetTitle.textContent = '予約情報'; sheetBody.innerHTML = renderBookings(); }
   else if (panel === 'checklist') { sheetTitle.textContent = '持ち物チェックリスト'; sheetBody.innerHTML = renderChecklist(); bindChecklist(); }
   else if (panel === 'memo') { sheetTitle.textContent = '全体メモ'; sheetBody.innerHTML = renderGlobalMemo(); bindGlobalMemo(); }
   else if (panel === 'links') { sheetTitle.textContent = 'リンク集'; sheetBody.innerHTML = renderLinks(); }
   else if (panel === 'info') { sheetTitle.textContent = '旅の情報'; sheetBody.innerHTML = renderInfo(); }
 }
 function closeSheet() { sheet.classList.remove('open'); }
+
+function renderBoats() {
+  return `
+    <div class="boat-tip">
+      💡 <strong>あなたの予定との対応</strong><br>
+      ・5/6 19:00 ICONSIAMディナー → <strong>19:00便</strong>（ICONSIAM 19:10着）<br>
+      ・5/7 12:00 ICONSIAM船着場 → <strong>12:00便</strong>（ICONSIAM 12:10着）<br>
+      ・5/9 17:00 ICONSIAM散策 → <strong>17:00便</strong>（ICONSIAM 17:10着）
+    </div>
+    
+    <div class="sheet-section">
+      <h4>🏨 ホテルシャトルボート（公式時刻表）</h4>
+      <div class="boat-card featured">
+        <div class="boat-header">
+          <div class="boat-flag gold">🏨</div>
+          <div>
+            <div class="boat-name">CHAO PHRAYA ESTATE シャトル</div>
+            <div class="boat-fare">無料 / 宿泊者専用 / 定員40名</div>
+          </div>
+        </div>
+        <div class="boat-row"><span class="label">運航時間</span><span class="value">7:00 — 22:00 出発</span></div>
+        <div class="boat-row"><span class="label">基本ルート</span><span class="value">ホテル → サートーン → ホテル</span></div>
+        <div class="boat-row"><span class="label">ICONSIAM経由</span><span class="value">10:00以降の毎時00分便</span></div>
+        <div class="boat-row"><span class="label">休憩</span><span class="value">14:00 — 15:00</span></div>
+      </div>
+      
+      <div style="margin-top:14px; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden;">
+        <div style="background:var(--ink); color:white; padding:10px 12px; font-size:11px; font-weight:700; letter-spacing:0.05em;">
+          完全時刻表 / FULL TIMETABLE
+        </div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:11px; min-width:340px;">
+            <thead>
+              <tr style="background:var(--bg); color:var(--ink-soft);">
+                <th style="padding:6px 4px; text-align:center; font-weight:500; width:28px;">便</th>
+                <th style="padding:6px 4px; text-align:center; font-weight:500;">ホテル発</th>
+                <th style="padding:6px 4px; text-align:center; font-weight:500;">サートーン着</th>
+                <th style="padding:6px 4px; text-align:center; font-weight:500;">ICONSIAM発</th>
+                <th style="padding:6px 4px; text-align:center; font-weight:500;">ホテル着</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${[
+                [1,'07:00','07:05','—','07:10'],
+                [2,'07:30','07:35','—','07:40'],
+                [3,'08:00','08:05','—','08:10'],
+                [4,'08:30','08:35','—','08:40'],
+                [5,'09:00','09:05','—','09:10'],
+                [6,'09:30','09:35','—','09:40'],
+                [7,'10:00','10:05','10:10','10:20'],
+                [8,'10:30','10:35','—','10:40'],
+                [9,'11:00','11:05','11:10','11:20'],
+                [10,'11:30','11:35','—','11:40'],
+                [11,'12:00','12:05','12:10','12:20'],
+                [12,'12:30','12:35','—','12:40'],
+                [13,'13:00','13:05','13:10','13:20'],
+                [14,'13:30','13:35','—','13:40'],
+              ].map(([n,a,b,c,d]) => {
+                const hasIcon = c !== '—';
+                return `<tr style="border-top:1px solid var(--line); ${hasIcon?'background:var(--gold-soft);':''}">
+                  <td style="padding:7px 4px; text-align:center; color:var(--ink-faint);">${n}</td>
+                  <td style="padding:7px 4px; text-align:center; font-family:'Shippori Mincho',serif; font-weight:500;">${a}</td>
+                  <td style="padding:7px 4px; text-align:center; color:var(--ink-soft);">${b}</td>
+                  <td style="padding:7px 4px; text-align:center; ${hasIcon?'color:var(--gold); font-weight:700;':'color:var(--ink-faint);'}">${c}</td>
+                  <td style="padding:7px 4px; text-align:center; color:var(--ink-soft);">${d}</td>
+                </tr>`;
+              }).join('')}
+              <tr style="background:#3d3835; color:#bbb;">
+                <td colspan="5" style="padding:8px; text-align:center; font-size:10px; letter-spacing:0.15em;">— 14:00〜15:00 BREAK / 休憩・給油 —</td>
+              </tr>
+              ${[
+                [15,'15:00','15:05','15:10','15:20'],
+                [16,'15:30','15:35','—','15:40'],
+                [17,'16:00','16:05','16:10','16:20'],
+                [18,'16:30','16:35','—','16:40'],
+                [19,'17:00','17:05','17:10','17:20'],
+                [20,'17:30','17:35','—','17:40'],
+                [21,'18:00','18:05','18:10','18:20'],
+                [22,'18:30','18:35','—','18:40'],
+                [23,'19:00','19:05','19:10','19:20'],
+                [24,'19:30','19:35','—','19:40'],
+                [25,'20:00','20:05','20:10','20:20'],
+                [26,'20:30','20:35','—','20:40'],
+                [27,'21:00','21:05','21:10','21:20'],
+                [28,'21:30','21:35','—','21:40'],
+                [29,'22:00','22:05','22:10','22:20'],
+              ].map(([n,a,b,c,d]) => {
+                const hasIcon = c !== '—';
+                return `<tr style="border-top:1px solid var(--line); ${hasIcon?'background:var(--gold-soft);':''}">
+                  <td style="padding:7px 4px; text-align:center; color:var(--ink-faint);">${n}</td>
+                  <td style="padding:7px 4px; text-align:center; font-family:'Shippori Mincho',serif; font-weight:500;">${a}</td>
+                  <td style="padding:7px 4px; text-align:center; color:var(--ink-soft);">${b}</td>
+                  <td style="padding:7px 4px; text-align:center; ${hasIcon?'color:var(--gold); font-weight:700;':'color:var(--ink-faint);'}">${c}</td>
+                  <td style="padding:7px 4px; text-align:center; color:var(--ink-soft);">${d}</td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:10px 12px; background:var(--bg); font-size:10px; color:var(--ink-soft); line-height:1.5;">
+          <strong style="color:var(--gold);">■</strong> 金色の行 = ICONSIAM経由便
+        </div>
+      </div>
+      
+      <div class="boat-note" style="margin-top:14px;">
+        <strong>ご利用条件</strong><br>
+        ・要事前予約：サートーン → ホテル便のうち 10:00以前は予約必須<br>
+        ・乗船時にホテルキー or ボートパス提示<br>
+        ・宿泊者以外は1,000B罰金<br>
+        ・先着順・定員40名<br>
+        ・悪天候時は予告なく変更・運休あり
+      </div>
+      
+      <div class="boat-note">
+        <strong>📞 問い合わせ</strong><br>
+        Four Seasons Hotel & Residences: +66 2 032 0888<br>
+        Capella Bangkok: +66 2 098 3888
+      </div>
+    </div>
+    
+    <div class="sheet-section">
+      <h4>🌊 観光用ボート（5/7使用）</h4>
+      <div class="boat-card">
+        <div class="boat-header">
+          <div class="boat-flag blue">青</div>
+          <div>
+            <div class="boat-name">チャオプラヤ・ツーリストボート（青旗）</div>
+            <div class="boat-fare">1日券 150B / 単発 40B</div>
+          </div>
+        </div>
+        <div class="boat-row"><span class="label">運航時間</span><span class="value">8:30 — 19:15</span></div>
+        <div class="boat-row"><span class="label">間隔</span><span class="value">約30分ごと</span></div>
+        <div class="boat-row"><span class="label">ICONSIAM発</span><span class="value">三大寺院方面</span></div>
+        <div class="boat-note">
+          <strong>5/7の三大寺院巡りで使う</strong>。屋根付き観光船で英語アナウンス付き。ICONSIAM Pier 1のチケット窓口で購入。
+        </div>
+      </div>
+    </div>
+    
+    <div class="sheet-section">
+      <h4>🚤 公共シャトル（バックアップ用）</h4>
+      <div class="boat-card">
+        <div class="boat-header">
+          <div class="boat-flag green">S</div>
+          <div>
+            <div class="boat-name">Supatra Boat</div>
+            <div class="boat-fare">片道 8B / 9:00 — 23:00 / 15〜20分間隔</div>
+          </div>
+        </div>
+        <div class="boat-note">
+          ホテル便が運休・満員の時のバックアップ。ICONSIAM ↔ サートーン間。チケットは ICONSIAM Pier 1 窓口。<br>
+          特にホテル便休憩中（14:00〜15:00）に使うと便利。
+        </div>
+      </div>
+    </div>
+    
+    <div class="sheet-section">
+      <h4>📍 主要桟橋一覧</h4>
+      <div class="boat-card">
+        <div class="boat-row"><span class="label">N9 ターチャン</span><span class="value">王宮</span></div>
+        <div class="boat-row"><span class="label">N8 ターティアン</span><span class="value">ワット・ポー / アルン渡し</span></div>
+        <div class="boat-row"><span class="label">N3 ICONSIAM</span><span class="value">ホテル隣接モール</span></div>
+        <div class="boat-row"><span class="label">サートーン</span><span class="value">BTSサパーンタクシン</span></div>
+        <div class="boat-row"><span class="label">アジアティーク</span><span class="value">夜のリバーサイドマーケット</span></div>
+      </div>
+    </div>
+  `;
+}
+
 
 function renderBookings() {
   let html = '<div class="sheet-section"><h4>アメックストラベル予約</h4>';
