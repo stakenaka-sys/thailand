@@ -132,8 +132,9 @@
   
   .action-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); border-top: 1px solid var(--line); padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); display: flex; justify-content: center; z-index: 100; }
   .action-inner { display: flex; gap: 6px; width: 100%; max-width: 520px; }
-  .action-btn { flex: 1; padding: 10px 8px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; font-family: inherit; font-size: 11px; color: var(--ink); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; }
-  .action-btn .icon { font-size: 16px; line-height: 1; }
+  .action-btn { flex: 1; padding: 8px 4px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; font-family: inherit; font-size: 10px; color: var(--ink); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; }
+  .action-btn .icon { font-size: 15px; line-height: 1; }
+  .action-inner { gap: 4px; }
   
   .sheet { position: fixed; inset: 0; background: rgba(26,24,20,0.45); z-index: 200; display: none; align-items: flex-end; justify-content: center; }
   .sheet.open { display: flex; }
@@ -284,6 +285,7 @@
 <div class="action-bar">
   <div class="action-inner">
     <button class="action-btn" onclick="openSheet('boats')"><span class="icon">🛥</span><span>ボート</span></button>
+    <button class="action-btn" onclick="openSheet('food')"><span class="icon">🍜</span><span>料理</span></button>
     <button class="action-btn" onclick="openSheet('bookings')"><span class="icon">✈</span><span>予約</span></button>
     <button class="action-btn" onclick="openSheet('checklist')"><span class="icon">☑</span><span>持ち物</span></button>
     <button class="action-btn" onclick="openSheet('memo')"><span class="icon">📝</span><span>メモ</span></button>
@@ -313,12 +315,9 @@ const gWiki = (lang, q) => `https://${lang}.wikipedia.org/wiki/${encodeURICompon
 const days = [
   {
     date: '2026-05-06', dateShort: '5/6', day: '水', dayFull: 'WEDNESDAY', theme: '到着日',
-    alert: '<strong>前日（5/5）までに：</strong><ul><li><span class="critical-text">① TDAC（タイ電子渡航カード）登録 ★最重要</span><br><a href="https://tdac.immigration.go.th" target="_blank" class="critical">🔗 TDAC登録サイト</a> <small>※2人分必要・到着72時間前以内推奨</small></li><li>② タイ航空オンラインチェックイン（出発24時間前から）<br><a href="https://www.thaiairways.com/" target="_blank">🔗 タイ航空 i-Check-in</a></li><li>③ モバイル搭乗券をスクショ＋PDF印刷</li><li>④ Uber 9:00予約確認<br><a href="https://m.uber.com/" target="_blank">📱 Uberアプリを開く</a></li></ul>',
+    alert: '<strong>前日（5/5）までに：</strong><ul><li><span class="critical-text">① TDAC（タイ電子渡航カード）登録 ★最重要</span><br><a href="https://tdac.immigration.go.th" target="_blank" class="critical">🔗 TDAC登録サイト</a> <small>※2人分必要・到着72時間前以内推奨</small></li><li>② タイ航空オンラインチェックイン（出発24時間前から）<br><a href="https://www.thaiairways.com/" target="_blank">🔗 タイ航空 i-Check-in</a></li><li>③ モバイル搭乗券をスクショ＋PDF印刷</li><li>④ Uber 9:00予約確認</li></ul>',
     items: [
-      { time: '09:00', title: '🚕 Uberピックアップ', detail: '自宅 → 福岡空港 国際線', major: true,
-        links: [
-          {url:'https://m.uber.com/', text:'📱 Uberアプリ', cls:''},
-        ]},
+      { time: '09:00', title: '🚕 Uberピックアップ', detail: '自宅 → 福岡空港 国際線', major: true },
       { time: '09:30', title: '✈ 福岡空港 ターミナルI到着', detail: '国際線ターミナル',
         links: [
           {info:'fuk-departure', text:'🕐 当日の流れ', cls:''},
@@ -355,7 +354,6 @@ const days = [
   },
   {
     date: '2026-05-07', dateShort: '5/7', day: '木', dayFull: 'THURSDAY', theme: '三大寺院＋ディナー',
-    alert: 'The Deck by Arun Residence へディナー予約の電話を入れる（18:30 川向きテラス席指定）<br><a href="tel:+6622219158" class="critical">📞 +66 2 221 9158</a> <a href="https://www.arunresidence.com/the-deck/" target="_blank">🔗 公式サイト</a>',
     items: [
       { time: '11:00', title: '🍽 ホテルでブランチ', detail: '' },
       { time: '12:00', title: 'ホテル発', detail: 'ICONSIAM船着場へ' },
@@ -415,17 +413,9 @@ const days = [
           {url: gWiki('ja','ワット・アルンラーチャワラーラーム'), text:'📖 詳細', cls:'wiki'},
         ]
       },
-      { time: '17:30', title: '対岸でサンセット撮影', detail: 'ゴールデンアワー' },
-      { time: '18:30', title: '🍽 The Deck', detail: 'ワット・アルン夜景・要予約', major: true,
-        links: [
-          {info:'the-deck', text:'🕐 営業情報', cls:''},
-          {url:'https://www.arunresidence.com/the-deck/', text:'🍽 公式', cls:''},
-          {url:'tel:+6622219158', text:'📞 +66 2 221 9158', cls:'phone'},
-          {url: gMap('The Deck Arun Residence Bangkok'), text:'🗺 地図', cls:'map'},
-        ]
-      },
-      { time: '20:30', title: 'Grabでホテルへ', detail: '',
-        links: [{url:'https://r.grab.com/', text:'📱 Grabアプリ', cls:''}] },
+      { time: '17:30', title: '🚶 対岸エリア散策', detail: 'ターティアン周辺・ワット・アルン対岸を自由に散策' },
+      { time: '18:30', title: '🍽 ディナー（未定）', detail: '当日の気分で決定。周辺にBlue Whale Cafe、The Deck、Sala Rattanakosinなど候補多数' },
+      { time: '20:30', title: 'Grabでホテルへ', detail: 'または徒歩でターティアン船着場、渡し舟+ボート' },
     ]
   },
   {
@@ -537,7 +527,6 @@ const links = [
     { name: 'The Deck by Arun Residence', sub: '+66 2 221 9158', url: 'https://www.arunresidence.com/the-deck/' },
   ]},
   { cat: '交通・移動', items: [
-    { name: 'Grab', sub: 'タクシー配車・タップでアプリ起動', url: 'https://r.grab.com/' },
     { name: 'Chao Phraya Tourist Boat', sub: '1日券 200B', url: 'https://chaophrayatouristboat.com/' },
     { name: 'ICONSIAM 無料シャトル', sub: 'ホテル ↔ ICONSIAM', url: 'https://www.iconsiam.com/en/getting_to_iconsiam' },
   ]},
@@ -566,50 +555,34 @@ const checklist = [
     { id: 'doc2', text: 'タイ航空 オンラインチェックイン', note: '出発24時間前から' },
     { id: 'doc3', text: 'モバイル搭乗券（スクショ＋メールPDF）', note: '電波対策' },
     { id: 'doc4', text: 'モバイル搭乗券A4印刷（バックアップ）', note: '念のため' },
-    { id: 'doc5', text: 'TDAC（タイ電子渡航カード）登録', note: 'thaievisa.go.th' },
-    { id: 'doc6', text: '海外旅行保険証券' },
-    { id: 'doc7', text: 'クレジットカード（アメプラ・他1枚）' },
-    { id: 'doc8', text: 'タイバーツ現金（5,000〜10,000B目安）' },
-    { id: 'doc9', text: '日本円（空港利用分）' },
-    { id: 'doc10', text: 'Uber予約確認（5/6 9:00）', note: '前日に再確認' },
+    { id: 'doc5', text: 'TDAC（タイ電子渡航カード）登録', note: '★最重要・到着72時間前以内' },
+    { id: 'doc6', text: 'クレジットカード（アメプラ・他1枚）' },
+    { id: 'doc7', text: 'タイバーツ現金（5,000〜10,000B目安）' },
   ]},
   { cat: '👔 衣類', items: [
-    { id: 'cl1', text: '寺院対応服', note: '長ズボン＋袖ありシャツ（5/7用）' },
-    { id: 'cl2', text: '滑りにくい靴', note: 'ワット・アルン登塔用' },
-    { id: 'cl3', text: '軽い羽織もの', note: '冷房対策・必須' },
-    { id: 'cl4', text: 'サンダル・歩きやすい靴' },
-    { id: 'cl5', text: '帽子・サングラス' },
-    { id: 'cl6', text: '水着', note: 'ホテルプール用' },
-    { id: 'cl7', text: 'ビジネスクラス用くつろぎ服' },
-    { id: 'cl8', text: 'ディナー用カジュアルめの服', note: 'The Deck用' },
+    { id: 'cl1', text: 'サングラス' },
+    { id: 'cl2', text: '上着（軽い羽織もの）', note: '機内・冷房対策' },
+    { id: 'cl3', text: '水着', note: 'ホテルプール用' },
   ]},
   { cat: '💊 薬・衛生', items: [
     { id: 'med1', text: 'OS-1粉末（5〜10袋）', note: '脱水時の最重要アイテム' },
     { id: 'med2', text: 'ストッパ下痢止めEX' },
     { id: 'med3', text: '第一三共胃腸薬' },
     { id: 'med4', text: 'スクラート（胃粘膜保護）' },
-    { id: 'med5', text: 'タイレノールA', note: '解熱・頭痛（NSAIDsはNG）' },
-    { id: 'med6', text: '整腸剤（ミヤリサン等）' },
-    { id: 'med7', text: '虫除けスプレー', note: 'デング熱対策' },
-    { id: 'med8', text: '日焼け止め（SPF50+）' },
-    { id: 'med9', text: 'アルコール手指消毒' },
-    { id: 'med10', text: 'マスク・絆創膏' },
+    { id: 'med5', text: 'ガスター10', note: '辛い料理後の胃酸対策' },
+    { id: 'med6', text: '頭痛薬', note: 'いつも飲み慣れているもの' },
+    { id: 'med7', text: 'かゆみ止め（虫刺され用）' },
+    { id: 'med8', text: '頭皮かゆみ止め' },
+    { id: 'med9', text: '虫除けスプレー', note: 'デング熱対策' },
+    { id: 'med10', text: '日焼け止め（SPF50+）' },
+    { id: 'med11', text: 'アルコール手指消毒' },
+    { id: 'med12', text: 'マスク・絆創膏' },
   ]},
   { cat: '🔌 電子機器', items: [
     { id: 'el1', text: 'スマホ＋充電ケーブル' },
     { id: 'el2', text: 'モバイルバッテリー', note: '機内持ち込み・100Wh以下' },
     { id: 'el3', text: '変換プラグ', note: 'タイはA/B/C混在・通常Aで可' },
-    { id: 'el4', text: 'カメラ＋予備バッテリー' },
-    { id: 'el5', text: 'イヤホン（機内用）' },
-    { id: 'el6', text: 'eSIM/SIM or ローミング設定' },
-  ]},
-  { cat: '🎒 機内・その他', items: [
-    { id: 'ot1', text: '機内用枕・アイマスク', note: '深夜便TG0648用' },
-    { id: 'ot2', text: '耳栓' },
-    { id: 'ot3', text: 'ジップロック数枚', note: '薬・小物分け' },
-    { id: 'ot4', text: 'スーツケース荷物タグ' },
-    { id: 'ot5', text: '折りたたみエコバッグ', note: 'ICONSIAM買い物用' },
-    { id: 'ot6', text: 'このスケジュールHTMLをスマホ保存' },
+    { id: 'el4', text: 'イヤホン（機内用）' },
   ]},
 ];
 
@@ -728,6 +701,7 @@ const sheetTitle = document.getElementById('sheet-title');
 function openSheet(panel) {
   sheet.classList.add('open');
   if (panel === 'boats') { sheetTitle.textContent = '🛥 ボート時刻表'; sheetBody.innerHTML = renderBoats(); }
+  else if (panel === 'food') { sheetTitle.textContent = '🍜 タイ料理ガイド'; sheetBody.innerHTML = renderFood(); }
   else if (panel === 'bookings') { sheetTitle.textContent = '予約情報'; sheetBody.innerHTML = renderBookings(); }
   else if (panel === 'checklist') { sheetTitle.textContent = '持ち物チェックリスト'; sheetBody.innerHTML = renderChecklist(); bindChecklist(); }
   else if (panel === 'memo') { sheetTitle.textContent = '全体メモ'; sheetBody.innerHTML = renderGlobalMemo(); bindGlobalMemo(); }
@@ -1308,6 +1282,103 @@ function showInfo(key) {
   sheetBody.innerHTML = '<div class="sheet-section">' + panel.html + '</div>';
 }
 
+
+
+function renderFood() {
+  const dishes = [
+    {
+      cat: '🌟 マスト級・タイの代表料理',
+      items: [
+        { name: 'パッタイ', en: 'Pad Thai', desc: '甘酸っぱいタイ風焼きそば。米麺・エビ・厚揚げ・もやし・ピーナッツ。屋台でもレストランでも安定の美味しさ。', tip: '辛さほぼゼロなので初日に最適', spice: 0 },
+        { name: 'トムヤムクン', en: 'Tom Yum Goong', desc: '世界三大スープのひとつ。エビの旨味とレモングラス・カフィアライム・ガランガルの香りが効いた酸辣スープ。', tip: 'ナムサイ（透明）とナムコン（ココナッツミルク入り）の2種類あり', spice: 3 },
+        { name: 'ガパオライス', en: 'Pad Krapow', desc: '挽肉・ホーリーバジル炒めご飯に目玉焼き。タイ人の国民食。', tip: '「カイダーオ」=目玉焼きトッピング、「ガイ（鶏）」「ムー（豚）」「ヌア（牛）」を選ぶ', spice: 3 },
+        { name: 'カオマンガイ', en: 'Khao Man Gai', desc: '蒸し鶏とその出汁で炊いたご飯。生姜・にんにく・チリの3種ソースが付く。', tip: '辛くない・優しい味で胃が疲れた時に最高', spice: 0 },
+        { name: 'グリーンカレー', en: 'Gaeng Keow Wan', desc: '青唐辛子ベースの辛甘いココナッツカレー。鶏・茄子・タイバジル。', tip: 'ライス別orカノムチンと一緒に', spice: 3 },
+        { name: 'マッサマンカレー', en: 'Massaman Curry', desc: 'CNN「世界一美味しい料理」第1位獲得。じゃがいも・牛肉・ピーナッツの濃厚カレー。辛さ控えめ。', tip: 'タイ料理の辛さが苦手でも食べられる', spice: 1 },
+      ]
+    },
+    {
+      cat: '🦐 屋台・ローカル必食',
+      items: [
+        { name: 'ソムタム', en: 'Som Tam', desc: '青パパイヤサラダ。ナンプラー・ライム・唐辛子・砂糖・干しエビ。爽やかで酒に合う。', tip: '「マイペット」必須。プー（カニ入り）・タイ（タイ風）など派生多数', spice: 4 },
+        { name: 'ヤムウンセン', en: 'Yam Woon Sen', desc: '春雨サラダ。豚ひき肉・エビ・きのこ・ピーナッツ。酸辣。', tip: '⚠️ 生エビ入りは避けて加熱版を選ぶ（Vibrio対策）', spice: 3 },
+        { name: 'カオパッ（タイ風チャーハン）', en: 'Khao Pad', desc: 'ナンプラー風味のチャーハン。エビ・カニ・パイナップルなどバリエーション豊富。', tip: 'ハズレなし。胃が疲れた時にも', spice: 0 },
+        { name: 'パッシーイウ', en: 'Pad See Ew', desc: '太い米麺と中国カイランの黒醤油焼きそば。甘辛で食べ応えあり。', tip: '辛くない。子供・初心者向け', spice: 0 },
+        { name: 'ムーピン', en: 'Moo Ping', desc: '豚串焼き。ココナッツミルクと醤油で甘辛にマリネ。屋台の定番。', tip: 'カオニャオ（もち米）と一緒に。朝食にも', spice: 0 },
+        { name: 'カオニャオ・マムアン', en: 'Khao Niao Mamuang', desc: 'マンゴーとココナッツミルクをかけたもち米スイーツ。', tip: '5月はマンゴー最盛期。絶対食べるべき', spice: 0 },
+      ]
+    },
+    {
+      cat: '🍲 麺料理',
+      items: [
+        { name: 'クイッティオ', en: 'Kuay Teow', desc: 'タイ風ヌードルスープ。米麺の太さ（センヤイ・センレック・センミー）と具を選ぶ。', tip: '「ナム（汁あり）」「ヘン（汁なし）」が選べる', spice: 1 },
+        { name: 'カオソーイ', en: 'Khao Soi', desc: '北部チェンマイ名物だがバンコクでも食べられる。揚げ麺＋茹で麺の二段構造のココナッツカレー麺。', tip: 'ライムを絞って・赤玉ねぎと食べる', spice: 2 },
+        { name: 'ボートヌードル', en: 'Kuay Teow Reua', desc: '濃厚な牛/豚スープのヌードル。1杯が小さく数杯食べる屋台文化。', tip: 'ビクトリーモニュメント周辺が有名だが空港近くにも店あり', spice: 2 },
+      ]
+    },
+    {
+      cat: '🍮 デザート・飲み物',
+      items: [
+        { name: 'タイティー', en: 'Cha Yen', desc: 'オレンジ色の練乳入り甘いミルクティー。氷で冷やして。', tip: '「マイワーン」=甘さ控えめ', spice: 0 },
+        { name: 'ロティ・サイマイ', en: 'Roti Sai Mai', desc: 'ふわふわクレープに綿菓子のような糸状の砂糖を巻いたタイ式お菓子。', tip: '夜市で見かけたら試す価値あり', spice: 0 },
+        { name: 'ココナッツアイス', en: 'I-tim Kati', desc: 'ココナッツミルクのアイス。ピーナッツ・スイートコーン・もち米トッピング。', tip: 'ICONSIAMのSOOKSIAMで本格派が食べられる', spice: 0 },
+        { name: 'シンハービール / チャーンビール', en: 'Singha / Chang Beer', desc: 'タイの2大ビール。シンハーは軽め、チャーンは濃いめでアルコール度数高め。', tip: '辛い料理に最高に合う', spice: 0 },
+      ]
+    },
+    {
+      cat: '⚠️ 避けるべきメニュー',
+      items: [
+        { name: '生のエビ・甲殻類', en: 'Goong Chae Nampla', desc: 'ナンプラー漬けの生エビ。タイ人に人気だが日本人はVibrio感染リスク3倍。', tip: '加熱版を選ぶ', spice: 0, warning: true },
+        { name: '生牡蠣', en: 'Hoy Nang Rom Sod', desc: '生で食べるオイスター。ノロウイルス・Vibrio汚染リスクあり。', tip: '加熱料理（ホイトート等）で', spice: 0, warning: true },
+        { name: '屋台のカットフルーツ', en: 'Pol-la-mai', desc: '見た目は涼しげだが、洗浄水と保管温度のリスク。', tip: '自分で皮を剥くマンゴー・バナナはOK', spice: 0, warning: true },
+        { name: '屋台の塊氷', en: 'Nam Khaeng', desc: '形が不揃いで濁った氷は飲料水基準でない可能性。', tip: '工業生産の透明な角氷・穴あき円柱形ならOK', spice: 0, warning: true },
+      ]
+    }
+  ];
+  
+  function renderSpice(level) {
+    if (level === 0) return '<span style="color:var(--ink-faint);">辛さ：穏やか</span>';
+    return '<span style="color:var(--warning);">' + '🌶'.repeat(level) + '</span>';
+  }
+  
+  let html = '<div class="boat-tip">💡 <strong>初日（5/6）の安全選び</strong>：パッタイ・カオマンガイ・パッシーイウなどの非辛料理から始めて、徐々に辛い料理へ。マンゴー＆もち米は5月限定の最高シーズンです。</div>';
+  
+  dishes.forEach(group => {
+    html += '<div class="sheet-section"><h4>' + group.cat + '</h4>';
+    group.items.forEach(d => {
+      const warningStyle = d.warning ? 'border-left:3px solid var(--warning); background:#FFF4E8;' : '';
+      html += '<div class="boat-card" style="' + warningStyle + '">' +
+        '<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">' +
+          '<div>' +
+            '<div style="font-size:14px; font-weight:700; color:var(--ink);">' + d.name + '</div>' +
+            '<div style="font-size:10px; color:var(--ink-faint); font-style:italic; letter-spacing:0.05em;">' + d.en + '</div>' +
+          '</div>' +
+          '<div style="font-size:11px;">' + renderSpice(d.spice) + '</div>' +
+        '</div>' +
+        '<div class="boat-note" style="margin-top:0; padding:8px 10px;">' + d.desc + '</div>' +
+        '<div style="margin-top:6px; padding:6px 10px; background:var(--gold-soft); border-radius:4px; font-size:11px; color:var(--ink);">💡 ' + d.tip + '</div>' +
+        '<div class="item-links" style="margin-top:8px;">' +
+          '<a href="' + gImg(d.name + ' ' + d.en + ' Thai food') + '" target="_blank" class="item-link photo">📸 写真</a>' +
+        '</div>' +
+        '</div>';
+    });
+    html += '</div>';
+  });
+  
+  html += '<div class="boat-card">' +
+    '<div class="boat-name" style="margin-bottom:6px;">🗣 注文時に使えるタイ語</div>' +
+    '<div class="boat-note" style="margin-top:0;">' +
+    '・<strong>マイ・ペット</strong>（辛くしないで）<br>' +
+    '・<strong>ペット・ニッ・ノイ</strong>（少しだけ辛く）<br>' +
+    '・<strong>マイ・サイ・パクチー</strong>（パクチー抜き）<br>' +
+    '・<strong>マイ・ワーン</strong>（甘くしないで）<br>' +
+    '・<strong>マイ・サイ・ナムケン</strong>（氷なしで）<br>' +
+    '・<strong>アロイ・マーク</strong>（とても美味しい！）' +
+    '</div>' +
+  '</div>';
+  
+  return html;
+}
 
 
 function renderBookings() {
