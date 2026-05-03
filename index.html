@@ -58,7 +58,12 @@
   .day-week-full { font-size: 12px; color: var(--ink-soft); letter-spacing: 0.15em; text-transform: uppercase; }
   .day-theme { display: inline-block; margin-top: 14px; padding: 6px 12px; background: var(--card); border: 1px solid var(--accent); border-radius: 4px; font-size: 11px; color: var(--accent); letter-spacing: 0.08em; font-weight: 500; }
   
-  .alert { margin: 16px 0 24px; padding: 14px 16px; background: #FFF4E8; border-left: 3px solid var(--warning); border-radius: 4px; font-size: 13px; color: var(--ink); line-height: 1.6; }
+  .alert { margin: 16px 0 24px; padding: 14px 16px; background: #FFF4E8; border-left: 3px solid var(--warning); border-radius: 4px; font-size: 13px; color: var(--ink); line-height: 1.8; }
+  .alert a { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; margin: 2px 4px 2px 0; background: var(--card); border: 1px solid var(--line); border-radius: 999px; font-size: 11px; color: var(--accent); text-decoration: none; font-weight: 500; }
+  .alert a.critical { color: #C45A3F; border-color: #E8A89A; background: #FFF0EC; font-weight: 700; }
+  .alert .critical-text { color: #C45A3F; font-weight: 700; }
+  .alert ul { margin: 6px 0 0 0; padding-left: 18px; }
+  .alert li { margin-bottom: 6px; line-height: 1.6; }
   .alert-label { display: inline-block; color: var(--warning); font-weight: 700; font-size: 10px; letter-spacing: 0.15em; margin-bottom: 4px; }
   
   .timeline { position: relative; padding-left: 18px; }
@@ -308,11 +313,31 @@ const gWiki = (lang, q) => `https://${lang}.wikipedia.org/wiki/${encodeURICompon
 const days = [
   {
     date: '2026-05-06', dateShort: '5/6', day: '水', dayFull: 'WEDNESDAY', theme: '到着日',
+    alert: '<strong>前日（5/5）までに：</strong><ul><li><span class="critical-text">① TDAC（タイ電子渡航カード）登録 ★最重要</span><br><a href="https://tdac.immigration.go.th" target="_blank" class="critical">🔗 TDAC登録サイト</a> <small>※2人分必要・到着72時間前以内推奨</small></li><li>② タイ航空オンラインチェックイン（出発24時間前から）<br><a href="https://www.thaiairways.com/" target="_blank">🔗 タイ航空 i-Check-in</a></li><li>③ モバイル搭乗券をスクショ＋PDF印刷</li><li>④ Uber 9:00予約確認<br><a href="https://m.uber.com/" target="_blank">📱 Uberアプリを開く</a></li></ul>',
     items: [
-      { time: '11:35', title: '🛫 出発', detail: 'FUK → BKK / TG0649' },
-      { time: '15:05', title: '🛬 到着', detail: 'スワンナプーム空港',
-        links: [{url: gMap('Suvarnabhumi Airport Bangkok'), text:'🗺 地図', cls:'map'}] },
-      { time: '15:30', title: 'ピックアップ', detail: 'KKday',
+      { time: '09:00', title: '🚕 Uberピックアップ', detail: '自宅 → 福岡空港 国際線', major: true,
+        links: [
+          {url:'https://m.uber.com/', text:'📱 Uberアプリ', cls:''},
+        ]},
+      { time: '09:30', title: '✈ 福岡空港 ターミナルI到着', detail: '国際線ターミナル',
+        links: [
+          {info:'fuk-departure', text:'🕐 当日の流れ', cls:''},
+          {url: gMap('Fukuoka Airport International Terminal'), text:'🗺 地図', cls:'map'},
+        ]},
+      { time: '09:35', title: '⏩ チェックインCK素通り', detail: 'オンラインCK済・手荷物のみのため不要' },
+      { time: '09:50', title: '🛂 保安検査・出国審査', detail: 'モバイル搭乗券＋パスポート提示' },
+      { time: '10:10', title: '☕ 制限エリア・ラウンジ', detail: '時間調整・免税店' },
+      { time: '11:05', title: '🚪 搭乗開始', detail: '出発30分前目処' },
+      { time: '11:35', title: '🛫 TG649 出発', detail: 'FUK → BKK / Airbus A330-300', major: true,
+        links: [
+          {info:'tg649', text:'🕐 便詳細', cls:''},
+        ]},
+      { time: '15:05', title: '🛬 BKK到着', detail: 'スワンナプーム空港・S107着の可能性',
+        links: [
+          {info:'bkk-arrival', text:'🕐 到着後動線', cls:''},
+          {url: gMap('Suvarnabhumi Airport Bangkok'), text:'🗺 地図', cls:'map'},
+        ]},
+      { time: '15:30', title: '🚗 KKdayピックアップ', detail: '到着出口で待ち合わせ',
         links: [{url:'https://www.kkday.com/ja', text:'KKday', cls:''}] },
       { time: '17:00', title: '🏨 チェックイン', detail: 'フォーシーズンズ・チャオプラヤ', major: true,
         links: [
@@ -330,7 +355,7 @@ const days = [
   },
   {
     date: '2026-05-07', dateShort: '5/7', day: '木', dayFull: 'THURSDAY', theme: '三大寺院＋ディナー',
-    alert: 'The Deck by Arun Residence へディナー予約の電話を入れる（18:30 川向きテラス席指定）',
+    alert: 'The Deck by Arun Residence へディナー予約の電話を入れる（18:30 川向きテラス席指定）<br><a href="tel:+6622219158" class="critical">📞 +66 2 221 9158</a> <a href="https://www.arunresidence.com/the-deck/" target="_blank">🔗 公式サイト</a>',
     items: [
       { time: '11:00', title: '🍽 ホテルでブランチ', detail: '' },
       { time: '12:00', title: 'ホテル発', detail: 'ICONSIAM船着場へ' },
@@ -400,7 +425,7 @@ const days = [
         ]
       },
       { time: '20:30', title: 'Grabでホテルへ', detail: '',
-        links: [{url:'https://www.grab.com/th/', text:'Grab', cls:''}] },
+        links: [{url:'https://r.grab.com/', text:'📱 Grabアプリ', cls:''}] },
     ]
   },
   {
@@ -436,7 +461,7 @@ const days = [
   },
   {
     date: '2026-05-09', dateShort: '5/9', day: '土', dayFull: 'SATURDAY', theme: 'ホテル休息日',
-    alert: 'スパは早めに予約（コンシェルジュへ）。土曜は人気のため事前確保推奨。',
+    alert: 'スパは早めに予約（コンシェルジュへ）。土曜は人気のため事前確保推奨。<br><a href="tel:+6620320888">📞 Four Seasons +66 2 032 0888</a>',
     items: [
       { time: '午前', title: '🏨 ホテル満喫', detail: '朝食・プール・スパ', major: true },
       { time: '14:00', title: '🍽 遅めランチ', detail: 'Riva Florale 等 館内' },
@@ -455,7 +480,7 @@ const days = [
   },
   {
     date: '2026-05-10', dateShort: '5/10', day: '日', dayFull: 'SUNDAY', theme: 'アユタヤ＋出国',
-    alert: 'チェックアウト・荷物まとめは午前中に。空港着20:00からRoyal Orchid Prestige Loungeへ直行。シャワー受付を最優先。',
+    alert: 'チェックアウト・荷物まとめは午前中に。空港着20:00からRoyal Orchid Prestige Loungeへ直行。シャワー受付を最優先。<br><br><strong>★ 出発24時間前（5/10 0:40〜）にTG648オンラインCKを必ず実施 ★</strong><br><a href="https://www.thaiairways.com/" target="_blank" class="critical">🔗 タイ航空 i-Check-in（復路用）</a> <small>モバイル搭乗券をスクショで保存</small>',
     items: [
       { time: '12:00', title: 'H → アユタヤ → 空港', detail: 'ホテルピックアップ', major: true },
       { time: '14:30〜18:30', title: '🏛 アユタヤ遺跡', detail: '貸切チャーター',
@@ -473,22 +498,33 @@ const days = [
           {url: gMap('Suvarnabhumi Airport Concourse D'), text:'🗺 地図', cls:'map'},
         ]},
       { time: '21:00', title: '🛀 ラウンジでシャワー', detail: '受付で先に申込み（混雑のため）' },
-      { time: '22:00', title: '🍽 食事・お酒', detail: '' },
-      { time: '23:30', title: 'ゲートへ移動', detail: 'SAT-1ならAPMで3分' },
+      { time: '22:00', title: '🍽 食事・お酒', detail: 'ラウンジで深夜便前の腹ごしらえ' },
+      { time: '23:30', title: '🚪 ゲートへ移動', detail: 'SAT-1の可能性高・APMで3分',
+        links: [
+          {info:'sat1', text:'🕐 SAT-1動線', cls:''},
+        ]},
+      { time: '00:10', title: '🚪 搭乗開始', detail: '出発30分前目処' },
     ]
   },
   {
     date: '2026-05-11', dateShort: '5/11', day: '月', dayFull: 'MONDAY', theme: '帰国',
     items: [
-      { time: '00:40', title: '🛫 帰国便', detail: 'BKK → 福岡 / TG0648', major: true },
-      { time: '08:00', title: '🛬 福岡着', detail: '直行便' },
+      { time: '00:40', title: '🛫 TG648 出発', detail: 'BKK → 福岡 / Airbus A330-300', major: true,
+        links: [
+          {info:'tg648', text:'🕐 便詳細', cls:''},
+        ]},
+      { time: '08:00', title: '🛬 福岡空港着', detail: 'ターミナルI（国際線）',
+        links: [{url: gMap('Fukuoka Airport International Terminal'), text:'🗺 地図', cls:'map'}] },
+      { time: '08:30', title: '🛂 入国審査・荷物受取', detail: '通常30〜60分' },
+      { time: '09:30', title: '🚗 自宅へ', detail: '到着' },
     ]
   },
 ];
 
 const bookings = [
-  { num: '30143090', confirmed: '2026/03/28 13:58', note: '推測：往路便 FUK→BKK / TG0649（5/6）' },
-  { num: '30143144', confirmed: '2026/03/28 14:17', note: '推測：復路便 BKK→福岡 / TG0648（5/11）' }
+  { num: 'DM9SYD', confirmed: '2026/03/28', note: '✈ タイ航空 PNR（往復）' },
+  { num: '30143090', confirmed: '2026/03/28 13:58', note: 'アメックス予約番号①' },
+  { num: '30143144', confirmed: '2026/03/28 14:17', note: 'アメックス予約番号②' }
 ];
 
 const links = [
@@ -501,7 +537,7 @@ const links = [
     { name: 'The Deck by Arun Residence', sub: '+66 2 221 9158', url: 'https://www.arunresidence.com/the-deck/' },
   ]},
   { cat: '交通・移動', items: [
-    { name: 'Grab', sub: 'タクシー配車', url: 'https://www.grab.com/th/' },
+    { name: 'Grab', sub: 'タクシー配車・タップでアプリ起動', url: 'https://r.grab.com/' },
     { name: 'Chao Phraya Tourist Boat', sub: '1日券 200B', url: 'https://chaophrayatouristboat.com/' },
     { name: 'ICONSIAM 無料シャトル', sub: 'ホテル ↔ ICONSIAM', url: 'https://www.iconsiam.com/en/getting_to_iconsiam' },
   ]},
@@ -527,11 +563,15 @@ const links = [
 const checklist = [
   { cat: '📜 必須書類・お金', items: [
     { id: 'doc1', text: 'パスポート', note: '有効期限6ヶ月以上を確認' },
-    { id: 'doc2', text: '航空券・予約控えのコピー（紙）' },
-    { id: 'doc3', text: '海外旅行保険証券' },
-    { id: 'doc4', text: 'クレジットカード（アメプラ・他1枚）' },
-    { id: 'doc5', text: 'タイバーツ現金（5,000〜10,000B目安）' },
-    { id: 'doc6', text: '日本円（空港利用分）' },
+    { id: 'doc2', text: 'タイ航空 オンラインチェックイン', note: '出発24時間前から' },
+    { id: 'doc3', text: 'モバイル搭乗券（スクショ＋メールPDF）', note: '電波対策' },
+    { id: 'doc4', text: 'モバイル搭乗券A4印刷（バックアップ）', note: '念のため' },
+    { id: 'doc5', text: 'TDAC（タイ電子渡航カード）登録', note: 'thaievisa.go.th' },
+    { id: 'doc6', text: '海外旅行保険証券' },
+    { id: 'doc7', text: 'クレジットカード（アメプラ・他1枚）' },
+    { id: 'doc8', text: 'タイバーツ現金（5,000〜10,000B目安）' },
+    { id: 'doc9', text: '日本円（空港利用分）' },
+    { id: 'doc10', text: 'Uber予約確認（5/6 9:00）', note: '前日に再確認' },
   ]},
   { cat: '👔 衣類', items: [
     { id: 'cl1', text: '寺院対応服', note: '長ズボン＋袖ありシャツ（5/7用）' },
@@ -1032,6 +1072,231 @@ const infoPanels = {
         </div>
       </div>
     `
+  },
+  'tg649': {
+    title: '🛫 TG649 詳細',
+    html: `
+      <div class="boat-card featured">
+        <div class="boat-header">
+          <div class="boat-flag gold">✈</div>
+          <div>
+            <div class="boat-name">TG649 / Thai Airways</div>
+            <div class="boat-fare">福岡 → バンコク（ビジネスクラス Z）</div>
+          </div>
+        </div>
+        <div class="boat-row"><span class="label">出発</span><span class="value">FUK 11:35</span></div>
+        <div class="boat-row"><span class="label">到着</span><span class="value">BKK 15:05</span></div>
+        <div class="boat-row"><span class="label">所要時間</span><span class="value">5h30m（直行便）</span></div>
+        <div class="boat-row"><span class="label">機材</span><span class="value">Airbus A330-300</span></div>
+        <div class="boat-row"><span class="label">座席（Shigeto）</span><span class="value">18G</span></div>
+        <div class="boat-row"><span class="label">座席（Tomoe）</span><span class="value">18E</span></div>
+      </div>
+      
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">📋 予約・チケット情報</div>
+        <div class="boat-row"><span class="label">予約番号(PNR)</span><span class="value" style="font-family:monospace; font-weight:700;">DM9SYD</span></div>
+        <div class="boat-row"><span class="label">eチケット(Shigeto)</span><span class="value" style="font-family:monospace; font-size:11px;">217-9809991131</span></div>
+        <div class="boat-row"><span class="label">eチケット(Tomoe)</span><span class="value" style="font-family:monospace; font-size:11px;">217-9809991132</span></div>
+        <div class="boat-row"><span class="label">予約日</span><span class="value">2026/03/28</span></div>
+      </div>
+      
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">⏰ 当日の動き</div>
+        <div class="boat-note" style="margin-top:0;">
+          ・<strong>09:00</strong> Uberピックアップ（自宅）<br>
+          ・<strong>09:30</strong> 福岡空港ターミナルI 着<br>
+          ・<strong>09:35</strong> CKカウンター素通り（オンラインCK済）<br>
+          ・<strong>09:50</strong> 保安検査・出国審査<br>
+          ・<strong>10:10</strong> 制限エリア・ラウンジへ<br>
+          ・<strong>11:05</strong> 搭乗開始（出発30分前）<br>
+          ・<strong>11:35</strong> 出発<br>
+          ・<strong>15:05</strong> BKK着（時差-2時間）<br>
+          ・到着ゲートはS107（SAT-1）の可能性高
+        </div>
+      </div>
+      
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">📞 緊急連絡先</div>
+        <div class="boat-note" style="margin-top:0;">
+          THAI Contact Center: <a href="tel:+6623561111">+66 2 356 1111</a><br>
+          フライトに関するすべての変更・確認はこちら
+        </div>
+      </div>
+    `
+  },
+  'tg648': {
+    title: '🛫 TG648 詳細',
+    html: `
+      <div class="boat-card featured">
+        <div class="boat-header">
+          <div class="boat-flag gold">✈</div>
+          <div>
+            <div class="boat-name">TG648 / Thai Airways</div>
+            <div class="boat-fare">バンコク → 福岡（ビジネスクラス D）</div>
+          </div>
+        </div>
+        <div class="boat-row"><span class="label">出発</span><span class="value">BKK 00:40</span></div>
+        <div class="boat-row"><span class="label">到着</span><span class="value">FUK 08:00</span></div>
+        <div class="boat-row"><span class="label">所要時間</span><span class="value">5h20m（直行便）</span></div>
+        <div class="boat-row"><span class="label">機材</span><span class="value">Airbus A330-300</span></div>
+        <div class="boat-row"><span class="label">座席(Shigeto)</span><span class="value">14G</span></div>
+        <div class="boat-row"><span class="label">座席(Tomoe)</span><span class="value">14E</span></div>
+      </div>
+      
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">📋 予約・チケット情報</div>
+        <div class="boat-row"><span class="label">予約番号(PNR)</span><span class="value" style="font-family:monospace; font-weight:700;">DM9SYD</span></div>
+        <div class="boat-row"><span class="label">eチケット(Shigeto)</span><span class="value" style="font-family:monospace; font-size:11px;">217-9809991131</span></div>
+        <div class="boat-row"><span class="label">eチケット(Tomoe)</span><span class="value" style="font-family:monospace; font-size:11px;">217-9809991132</span></div>
+      </div>
+      
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">⏰ 当日の動き</div>
+        <div class="boat-note" style="margin-top:0;">
+          ・<strong>20:00</strong> 空港着（5/10アユタヤ後）<br>
+          ・<strong>20:30</strong> Royal Orchid Prestige Lounge へ<br>
+          ・<strong>21:00</strong> シャワー受付<br>
+          ・<strong>23:30</strong> ゲートへ移動（SAT-1の可能性）<br>
+          ・<strong>00:10</strong> 搭乗開始（出発30分前）<br>
+          ・<strong>00:40</strong> 出発（深夜便・機内で就寝）<br>
+          ・<strong>08:00</strong> 福岡着（時差+2時間）
+        </div>
+      </div>
+      
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">⚠️ 深夜便のコツ</div>
+        <div class="boat-note" style="margin-top:0;">
+          ・搭乗前にシャワーで体をリセット<br>
+          ・機内食は軽めに（睡眠優先）<br>
+          ・アイマスク・耳栓・水を機内持ち込み<br>
+          ・到着後は時差ボケなし、即活動可能
+        </div>
+      </div>
+    `
+  },
+  'fuk-departure': {
+    title: '✈ 福岡空港 国際線（出発当日）',
+    html: `
+      <div class="boat-card featured">
+        <div class="boat-name" style="margin-bottom:6px;">🎯 オンラインCK済・手荷物のみの場合</div>
+        <div class="boat-note" style="margin-top:0;">
+          <strong>カウンターに寄る必要はありません</strong>。<br>
+          2022年以降、タイ航空はWEBチェックイン後の搭乗券印刷・書類確認が不要になりました。<br>
+          モバイル搭乗券＋パスポートを持って、そのまま<strong>保安検査へ直行</strong>できます。
+        </div>
+      </div>
+      
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">⏰ 当日のリアルな流れ</div>
+        <div class="boat-note" style="margin-top:0;">
+          ・<strong>09:00</strong> 自宅でUberピックアップ<br>
+          ・<strong>09:30</strong> 福岡空港 ターミナルI 着<br>
+          ・<strong>09:35</strong> Eカウンター素通り（CK不要）<br>
+          ・<strong>09:50</strong> 保安検査（10〜15分）<br>
+          ・<strong>10:00</strong> 出国審査（自動ゲート可）<br>
+          ・<strong>10:10</strong> 制限エリア・ラウンジへ<br>
+          ・<strong>11:05</strong> 搭乗開始<br>
+          ・<strong>11:35</strong> 出発<br>
+          <br>
+          実体験報告：到着から搭乗ゲートまで<strong>30〜45分</strong>程度。
+        </div>
+      </div>
+      
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">📱 モバイル搭乗券の準備</div>
+        <div class="boat-note" style="margin-top:0;">
+          ① タイ航空アプリ or メールでQR搭乗券を取得<br>
+          ② <strong>スクリーンショット保存</strong>（電波対策）<br>
+          ③ 念のためA4で1部印刷（バックアップ）<br>
+          ④ 保安検査・搭乗口で提示
+        </div>
+      </div>
+      
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">📍 ターミナルI（国際線）</div>
+        <div class="boat-row"><span class="label">タイ航空CK</span><span class="value">Eカウンター</span></div>
+        <div class="boat-row"><span class="label">CK受付開始</span><span class="value">出発2時間30分前</span></div>
+        <div class="boat-row"><span class="label">KIOSK受付</span><span class="value">出発5時間前</span></div>
+        <div class="boat-note">
+          国内線ターミナルとは別棟。地下鉄空港駅から国内線→無料連絡バス（10分）。<br>
+          Uber/タクシーは直接国際線ターミナル前まで行けます。
+        </div>
+      </div>
+      
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">⚠️ 万が一の場合</div>
+        <div class="boat-note" style="margin-top:0;">
+          ・モバイル搭乗券が表示できない<br>
+          　→ Eカウンターで搭乗券を再発行<br>
+          ・オンラインCK失敗していた<br>
+          　→ Eカウンターで通常CK（出発60分前まで可）
+        </div>
+      </div>
+    `
+  },
+  'bkk-arrival': {
+    title: '🛬 スワンナプーム空港 到着動線',
+    html: `
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">🛂 到着の流れ</div>
+        <div class="boat-note" style="margin-top:0;">
+          ① 機体降機（S107の場合はSAT-1）<br>
+          ② <strong>APM(自動列車)で本館へ約3分</strong><br>
+          ③ 入国審査（ビザなし可・パスポート提示）<br>
+          ④ 荷物受取（ターンテーブル）<br>
+          ⑤ 税関を通過（無申告レーン）<br>
+          ⑥ 到着出口（Arrival Gate 3 or 4が一般的）<br>
+          ⑦ KKdayピックアップと合流
+        </div>
+      </div>
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">⏱ 所要時間目安</div>
+        <div class="boat-note" style="margin-top:0;">
+          ・着陸→出口：30〜45分（混雑時60分）<br>
+          ・SAT-1からの場合：APM移動分+5分<br>
+          ・スワンナプームは大きいので余裕を見て
+        </div>
+      </div>
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">📱 入国前に準備</div>
+        <div class="boat-note" style="margin-top:0;">
+          ・パスポート＋帰国便eチケット<br>
+          ・電子渡航カード（TDAC）登録済みなら見せる<br>
+          ・タイの入国カードは2024年廃止
+        </div>
+      </div>
+    `
+  },
+  'sat1': {
+    title: '🚪 SAT-1 サテライト・ターミナル',
+    html: `
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">📍 SAT-1とは</div>
+        <div class="boat-note" style="margin-top:0;">
+          スワンナプーム空港の<strong>サテライトターミナル</strong>。本館（メインターミナル）と離れた場所にあり、自動列車（APM）で接続されています。<br>
+          ゲート番号が <strong>S101〜S128</strong> ならSAT-1。
+        </div>
+      </div>
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">🚆 APM（自動列車）</div>
+        <div class="boat-row"><span class="label">所要時間</span><span class="value">約3分</span></div>
+        <div class="boat-row"><span class="label">間隔</span><span class="value">数分ごと</span></div>
+        <div class="boat-row"><span class="label">場所</span><span class="value">本館コンコースD奥</span></div>
+        <div class="boat-note">
+          ラウンジ（Royal Orchid Prestige Lounge）はコンコースDにあるので、ラウンジを出てAPM乗り場まで徒歩約3分。乗車3分。
+        </div>
+      </div>
+      <div class="boat-card">
+        <div class="boat-name" style="margin-bottom:6px;">⏰ 出発前の動き目安</div>
+        <div class="boat-note" style="margin-top:0;">
+          搭乗30分前にゲート前にいるなら、その<strong>10分前にラウンジを出発</strong>すれば余裕。<br>
+          ・00:40出発便<br>
+          ・00:10搭乗開始<br>
+          ・<strong>23:50</strong>ラウンジ出発<br>
+          ・00:00 SAT-1ゲート前到着
+        </div>
+      </div>
+    `
   }
 };
 
@@ -1046,8 +1311,57 @@ function showInfo(key) {
 
 
 function renderBookings() {
-  let html = '<div class="sheet-section"><h4>アメックストラベル予約</h4>';
-  bookings.forEach(b => {
+  let html = `
+    <div class="sheet-section"><h4>✈ タイ航空 予約（往復）</h4>
+      <div class="booking-card" style="background:var(--gold-soft); border-color:var(--gold);">
+        <div class="label">予約番号 (PNR)</div>
+        <div class="num">DM9SYD<button class="copy-btn" onclick="copyText('DM9SYD', this)">コピー</button></div>
+        <div class="meta">予約者：Shigeto Takenaka / Tomoe Nagata<br>予約日：2026/03/28<br>発券：Thai Airways International</div>
+      </div>
+      <div class="booking-card">
+        <div class="label">eチケット（Shigeto）</div>
+        <div class="num" style="font-size:14px;">217-9809991131<button class="copy-btn" onclick="copyText('217-9809991131', this)">コピー</button></div>
+      </div>
+      <div class="booking-card">
+        <div class="label">eチケット（Tomoe）</div>
+        <div class="num" style="font-size:14px;">217-9809991132<button class="copy-btn" onclick="copyText('217-9809991132', this)">コピー</button></div>
+      </div>
+    </div>
+    
+    <div class="sheet-section"><h4>🛫 往路 5/6 TG649</h4>
+      <div class="booking-card">
+        <div class="boat-row"><span class="label">区間</span><span class="value">FUK → BKK</span></div>
+        <div class="boat-row"><span class="label">出発</span><span class="value">11:35（ターミナルI）</span></div>
+        <div class="boat-row"><span class="label">到着</span><span class="value">15:05</span></div>
+        <div class="boat-row"><span class="label">機材</span><span class="value">Airbus A330-300</span></div>
+        <div class="boat-row"><span class="label">クラス</span><span class="value">Z（ビジネス）</span></div>
+        <div class="boat-row"><span class="label">座席</span><span class="value">18G / 18E</span></div>
+      </div>
+    </div>
+    
+    <div class="sheet-section"><h4>🛬 復路 5/11 TG648</h4>
+      <div class="booking-card">
+        <div class="boat-row"><span class="label">区間</span><span class="value">BKK → FUK</span></div>
+        <div class="boat-row"><span class="label">出発</span><span class="value">00:40</span></div>
+        <div class="boat-row"><span class="label">到着</span><span class="value">08:00（ターミナルI）</span></div>
+        <div class="boat-row"><span class="label">機材</span><span class="value">Airbus A330-300</span></div>
+        <div class="boat-row"><span class="label">クラス</span><span class="value">D（ビジネス）</span></div>
+        <div class="boat-row"><span class="label">座席</span><span class="value">14G / 14E</span></div>
+      </div>
+    </div>
+    
+    <div class="sheet-section"><h4>📞 タイ航空問い合わせ</h4>
+      <div class="booking-card">
+        <div class="meta">
+          THAI Contact Center<br>
+          <a href="tel:+6623561111" style="color:var(--accent); font-weight:500;">+66 2 356 1111</a><br>
+          <small>座席変更・追加サービス・キャンセル等</small>
+        </div>
+      </div>
+    </div>
+    
+    <div class="sheet-section"><h4>💳 アメックス予約番号</h4>`;
+  bookings.filter(b => b.num !== 'DM9SYD').forEach(b => {
     html += `
       <div class="booking-card">
         <div class="label">予約番号</div>
@@ -1058,18 +1372,20 @@ function renderBookings() {
     `;
   });
   html += `
-    <div style="margin-top:12px; padding:12px; background:var(--gold-soft); border-radius:6px; font-size:12px; color:var(--ink); line-height:1.6;">
-      💡 詳細（便名・座席・PNR等）は<a href="https://travel.americanexpress.com/jp" target="_blank" style="color:var(--accent);">アメックストラベル予約管理</a>で確認
+      <div style="margin-top:12px; padding:12px; background:var(--gold-soft); border-radius:6px; font-size:12px; color:var(--ink); line-height:1.6;">
+        💡 <a href="https://travel.americanexpress.com/jp" target="_blank" style="color:var(--accent);">アメックストラベル予約管理</a>で詳細確認可
+      </div>
     </div>
-    </div>
-    <div class="sheet-section"><h4>ホテル</h4>
+    
+    <div class="sheet-section"><h4>🏨 ホテル</h4>
       <div class="booking-card">
         <div class="label">滞在ホテル</div>
         <div class="num" style="font-size:15px;">Four Seasons Bangkok</div>
-        <div class="meta">at Chao Phraya River<br>+66 2 032 0888<br>5/6 IN — 5/10 OUT (4泊)</div>
+        <div class="meta">at Chao Phraya River<br><a href="tel:+6620320888" style="color:var(--accent);">+66 2 032 0888</a><br>5/6 IN — 5/10 OUT（4泊）</div>
       </div>
     </div>
-    <div class="sheet-section"><h4>カード情報</h4>
+    
+    <div class="sheet-section"><h4>💳 カード情報</h4>
       <div class="booking-card">
         <div class="meta">アメックスプラチナ ****01005<br>プライオリティパス保有</div>
       </div>
