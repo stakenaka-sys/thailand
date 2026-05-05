@@ -315,7 +315,7 @@ const gWiki = (lang, q) => `https://${lang}.wikipedia.org/wiki/${encodeURICompon
 const days = [
   {
     date: '2026-05-06', dateShort: '5/6', day: '水', dayFull: 'WEDNESDAY', theme: '到着日',
-    alert: '<strong>前日（5/5）までに：</strong><ul><li><span class="critical-text">① TDAC（タイ電子渡航カード）登録 ★最重要</span><br><a href="https://tdac.immigration.go.th" target="_blank" class="critical">🔗 TDAC登録サイト</a> <small>※2人分必要・到着72時間前以内推奨</small></li><li>② タイ航空オンラインチェックイン（出発24時間前から）<br><a href="https://www.thaiairways.com/" target="_blank">🔗 タイ航空 i-Check-in</a></li><li>③ モバイル搭乗券をスクショ＋PDF印刷</li><li>④ Uber 9:00予約確認</li></ul>',
+    alert: '<strong>前日（5/5）までに：</strong><ul><li><span class="critical-text">① TDAC（タイ電子渡航カード）登録 ★最重要</span><br><a href="https://tdac.immigration.go.th" target="_blank" class="critical">🔗 TDAC登録サイト</a> <small>※2人分必要・到着72時間前以内推奨</small></li><li>② タイ航空オンラインチェックイン（出発24時間前から）<br><a href="https://www.thaiairways.com/" target="_blank">🔗 タイ航空 i-Check-in</a></li><li>③ モバイル搭乗券をスクショ＋PDF印刷</li><li>④ Uber 9:00予約確認</li><li>⑤ Visit Japan Web 事前登録（帰国時に使用）<br><a href="https://services.digital.go.jp/visit-japan-web/" target="_blank">🔗 Visit Japan Web</a></li></ul>',
     items: [
       { time: '09:00', title: '🚕 Uberピックアップ', detail: '自宅 → 福岡空港 国際線', major: true },
       { time: '09:30', title: '✈ 福岡空港 ターミナルI到着', detail: '国際線ターミナル',
@@ -326,7 +326,8 @@ const days = [
       { time: '09:35', title: '⏩ チェックインCK素通り', detail: 'オンラインCK済・手荷物のみのため不要' },
       { time: '09:50', title: '🛂 保安検査・出国審査', detail: 'モバイル搭乗券＋パスポート提示' },
       { time: '10:10', title: '☕ 制限エリア・ラウンジ', detail: '時間調整・免税店' },
-      { time: '11:05', title: '🚪 搭乗開始', detail: '出発30分前目処' },
+      { time: '10:55', title: '🚪 搭乗開始（Group 1）', detail: 'ビジネスクラス優先搭乗・出発40分前' },
+      { time: '11:25', title: '🚪 搭乗ゲート締切', detail: '出発10分前・遅れると搭乗不可' },
       { time: '11:35', title: '🛫 TG649 出発', detail: 'FUK → BKK / Airbus A330-300', major: true,
         links: [
           {info:'tg649', text:'🕐 便詳細', cls:''},
@@ -498,6 +499,7 @@ const days = [
   },
   {
     date: '2026-05-11', dateShort: '5/11', day: '月', dayFull: 'MONDAY', theme: '帰国',
+    alert: '<strong>機内で Visit Japan Web の情報を確認</strong>。入国審査・税関でQRコード提示。<br><a href="https://services.digital.go.jp/visit-japan-web/" target="_blank" class="critical">🔗 Visit Japan Web</a> <small>便名：TG648 / 到着日：5/11</small>',
     items: [
       { time: '00:40', title: '🛫 TG648 出発', detail: 'BKK → 福岡 / Airbus A330-300', major: true,
         links: [
@@ -505,7 +507,10 @@ const days = [
         ]},
       { time: '08:00', title: '🛬 福岡空港着', detail: 'ターミナルI（国際線）',
         links: [{url: gMap('Fukuoka Airport International Terminal'), text:'🗺 地図', cls:'map'}] },
-      { time: '08:30', title: '🛂 入国審査・荷物受取', detail: '通常30〜60分' },
+      { time: '08:30', title: '🛂 入国審査・荷物受取・税関', detail: 'Visit Japan Web のQR提示',
+        links: [
+          {url:'https://services.digital.go.jp/visit-japan-web/', text:'🔗 Visit Japan Web', cls:''},
+        ]},
       { time: '09:30', title: '🚗 自宅へ', detail: '到着' },
     ]
   },
@@ -1062,6 +1067,8 @@ const infoPanels = {
         <div class="boat-row"><span class="label">到着</span><span class="value">BKK 15:05</span></div>
         <div class="boat-row"><span class="label">所要時間</span><span class="value">5h30m（直行便）</span></div>
         <div class="boat-row"><span class="label">機材</span><span class="value">Airbus A330-300</span></div>
+        <div class="boat-row"><span class="label">搭乗時刻</span><span class="value" style="color:var(--gold); font-weight:700;">10:55</span></div>
+        <div class="boat-row"><span class="label">搭乗グループ</span><span class="value">Group 1（優先搭乗）</span></div>
         <div class="boat-row"><span class="label">座席（Shigeto）</span><span class="value">18G</span></div>
         <div class="boat-row"><span class="label">座席（Tomoe）</span><span class="value">18E</span></div>
       </div>
@@ -1082,7 +1089,8 @@ const infoPanels = {
           ・<strong>09:35</strong> CKカウンター素通り（オンラインCK済）<br>
           ・<strong>09:50</strong> 保安検査・出国審査<br>
           ・<strong>10:10</strong> 制限エリア・ラウンジへ<br>
-          ・<strong>11:05</strong> 搭乗開始（出発30分前）<br>
+          ・<strong>10:55</strong> 搭乗開始（Group 1・優先搭乗）<br>
+          ・<strong>11:25</strong> 搭乗ゲート締切（出発10分前）<br>
           ・<strong>11:35</strong> 出発<br>
           ・<strong>15:05</strong> BKK着（時差-2時間）<br>
           ・到着ゲートはS107（SAT-1）の可能性高
